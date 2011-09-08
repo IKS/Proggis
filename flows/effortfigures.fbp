@@ -35,8 +35,11 @@ GetTR() OUT -> IN SplitRows(SplitArray) OUT -> IN GetTD()
 
 # The label of the row is contained in the third column
 '2' -> KEY GroupByRowLabel(GroupByObjectKey)
+# After reading the label, remove three first columns, and everything after real data
+'3' -> BEGIN SliceColumns(SliceArray)
+'16' -> END SliceColumns()
 # Group by the row label, and collect into objects
-GetTD() OUT -> IN GroupByRowLabel() OUT -> IN Collect(CollectGroups)
+GetTD() OUT -> IN GroupByRowLabel() OUT -> IN SliceColumns() OUT -> IN Collect(CollectGroups)
 
 # Display output
 Collect() OUT -> IN Display()
