@@ -47,5 +47,9 @@ GetTD() OUT -> IN GroupByRowLabel() OUT -> IN SliceColumns() OUT -> IN Collect(C
 # Turn the columns into objects
 Collect() OUT -> IN Entitize(PropertiesToObjects)
 
+# Mappings for some properties
+'Partner=prj:assignee' -> MAP MapProps(MapProperty)
+'Country=foaf:country' -> MAP MapProps()
+
 # Display output
-Entitize() OUT -> IN Display()
+Entitize() OUT -> IN SplitEntities(SplitArray) OUT -> IN MapProps() OUT -> IN Display()
