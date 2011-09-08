@@ -4,32 +4,37 @@
 # Give the location of the document
 'IKS_effortcontrolling.xlsx' -> SOURCE Read()
 
-# Set up DOM matchers
-'body' -> KEY GetBody(GetObjectKey)
-'div' -> KEY GetDiv(GetObjectKey)
-'1' -> KEY GetEffortTable(GetObjectKey)
-'h1' -> KEY GroupByTableId(GroupByObjectKey)
-'2' -> KEY GroupByRowLabel(GroupByObjectKey)
-'table' -> KEY GetTable(GetObjectKey)
-'tbody' -> KEY GetTBody(GetObjectKey)
-'tr' -> KEY GetTR(GetObjectKey)
-'td' -> KEY GetTD(GetObjectKey)
-
 # If reading fails, just display the error
 Read() ERROR -> IN Display(Output)
 
 # Parse the file to JSON, get add spreadsheets from it
-Read() OUT -> IN Parse(ParseXml) OUT -> IN GetBody() OUT -> IN GetDiv()
+Read() OUT -> IN Parse(ParseXml) 
 
+# We're only interested in DIVs inside the BODY
+'body' -> KEY GetBody(GetObjectKey)
+'div' -> KEY GetDiv(GetObjectKey)
+# Read DIVs and pass them forward
+Parse() OUT -> IN GetBody() OUT -> IN GetDiv()
+
+# The effort spreadsheet is the second one in the file
+'1' -> KEY GetEffortTable(GetObjectKey)
+# Spreadsheet title is in a H1
+'h1' -> KEY GroupByTableId(GroupByObjectKey)
 # Get only the effort spreadsheet, group data by it
 GetDiv() OUT -> IN GetEffortTable() OUT -> IN GroupByTableId()
 
 # Get spreadsheet table and the rows from it
+'table' -> KEY GetTable(GetObjectKey)
+'tbody' -> KEY GetTBody(GetObjectKey)
+'tr' -> KEY GetTR(GetObjectKey)
 GroupByTableId() OUT -> IN GetTable() OUT -> IN GetTBody() OUT -> IN GetTR() 
 
 # Process each row individually and get the cells
+'td' -> KEY GetTD(GetObjectKey)
 GetTR() OUT -> IN SplitRows(SplitArray) OUT -> IN GetTD()
 
+# The label of the row is contained in the third column
+'2' -> KEY GroupByRowLabel(GroupByObjectKey)
 # Group by the row label, and collect into objects
 GetTD() OUT -> IN GroupByRowLabel() OUT -> IN Collect(CollectGroups)
 
