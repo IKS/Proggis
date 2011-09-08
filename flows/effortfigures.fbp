@@ -1,0 +1,37 @@
+# Give the location of Tika
+'tika-app-0.9.jar' -> TIKA Read(ReadDocument)
+
+# Give the location of the document
+'IKS_effortcontrolling.xlsx' -> SOURCE Read()
+
+# Set up DOM matchers
+'body' -> KEY GetBody(GetObjectKey)
+'div' -> KEY GetDiv(GetObjectKey)
+'1' -> KEY GetEffortTable(GetObjectKey)
+'h1' -> KEY GroupByTableId(GroupByObjectKey)
+'2' -> KEY GroupByRowLabel(GroupByObjectKey)
+'table' -> KEY GetTable(GetObjectKey)
+'tbody' -> KEY GetTBody(GetObjectKey)
+'tr' -> KEY GetTR(GetObjectKey)
+'td' -> KEY GetTD(GetObjectKey)
+
+# If reading fails, just display the error
+Read() ERROR -> IN Display(Output)
+
+# Parse the file to JSON, get add spreadsheets from it
+Read() OUT -> IN Parse(ParseXml) OUT -> IN GetBody() OUT -> IN GetDiv()
+
+# Get only the effort spreadsheet, group data by it
+GetDiv() OUT -> IN GetEffortTable() OUT -> IN GroupByTableId()
+
+# Get spreadsheet table and the rows from it
+GroupByTableId() OUT -> IN GetTable() OUT -> IN GetTBody() OUT -> IN GetTR() 
+
+# Process each row individually and get the cells
+GetTR() OUT -> IN SplitRows(SplitArray) OUT -> IN GetTD()
+
+# Group by the row label, and collect into objects
+GetTD() OUT -> IN GroupByRowLabel() OUT -> IN Collect(CollectGroups)
+
+# Display output
+Collect() OUT -> IN Display()
