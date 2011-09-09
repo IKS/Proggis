@@ -1,0 +1,22 @@
+# Give the location of Tika
+'tika-app-0.9.jar' -> TIKA Read(ReadDocument)
+
+# Give the location of the document
+'IKS_effortcontrolling.xlsx' -> SOURCE Read()
+
+# If reading fails, just display the error
+Read() ERROR -> IN Display(Output)
+
+# Parse the file to JSON, get add spreadsheets from it
+Read() OUT -> IN Parse(ParseXml) 
+
+# We're only interested in DIVs inside the BODY
+'body' -> KEY GetBody(GetObjectKey)
+'div' -> KEY GetDiv(GetObjectKey)
+# Read DIVs and pass them forward
+Parse() OUT -> IN GetBody() OUT -> IN GetDiv()
+
+# Write output in a json file
+GetDiv() OUT -> IN Serialize(JSONSerialize) OUT -> IN Write(WriteFile)
+'IKS_effortcontrolling.json' -> TARGET Write()
+
