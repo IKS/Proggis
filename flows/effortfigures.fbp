@@ -22,6 +22,13 @@
 '(\d+)\sWP\:\s(.+)=http://iks-project.eu/wp/$1' -> REGEXP MapProps()
 '(\d+\.\d+)\sTask\:(.+)=http://iks-project.eu/task/$1' -> REGEXP MapProps()
 
+# CouchDB saving
+'http://localhost:5984/default' -> URL Connection(WebService/CouchDB/OpenDatabase)
+Connection() CONNECTION -> CONNECTION Save(WebService/CouchDB/SaveObject)
+'@subject=_id' -> MAP MapForCouch(MapProperty)
+
+#Reader() SPLITENTITIES.OUT -> IN Display(Output)
+
 Reader() ENTITIZE.OUT -> IN SplitEntities(SplitArray) OUT -> IN MapProps()
 
-MapProps() OUT -> IN Display(Output)
+MapProps() OUT -> IN MapForCouch() OUT -> IN Save()
