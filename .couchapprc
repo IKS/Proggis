@@ -1,7 +1,8 @@
 {
   "env" : {
     "default" : {
-      "db" : "http://localhost:5984/proggis_dev"
+      "db" : "http://localhost:5984/default",
+      "make_dumps": false
     }
   }
 }
