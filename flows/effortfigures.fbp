@@ -22,13 +22,40 @@
 '(\d+)\sWP\:\s(.+)=http://iks-project.eu/wp/$1' -> REGEXP MapProps()
 '(\d+\.\d+)\sTask\:(.+)=http://iks-project.eu/task/$1' -> REGEXP MapProps()
 
-# CouchDB saving
-'http://localhost:5984/default' -> URL Connection(WebService/CouchDB/OpenDatabase)
-Connection() CONNECTION -> CONNECTION Save(WebService/CouchDB/SaveObject)
-'@subject=_id' -> MAP MapForCouch(MapProperty)
+# CouchDB ssettings
+'http://localhost:5984/default' -> URL Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION Save(WebService/CouchDB/SaveObject)
 
-#Reader() SPLITENTITIES.OUT -> IN Display(Output)
+# Get entities and split them to individual packets
+Reader() ENTITIZE.OUT -> IN SplitEntities(SplitArray)
 
-Reader() ENTITIZE.OUT -> IN SplitEntities(SplitArray) OUT -> IN MapProps()
+# Extract participants from data
+'Partner' -> ACCEPT FilterPartners(FilterProperty)
+'Country' -> ACCEPT FilterPartners()
+# ...and map them to JSON-LD
+'Partner=_id' -> MAP MapPartners(MapProperty)
+'Country=foaf:country' -> MAP MapPartners()
+'@type=organization' -> PROPERTY SetPartnerProps(SetProperty)
+'_id=foaf:name' -> PROPERTY CopyPartnerProps(DuplicateProperty)
 
-MapProps() OUT -> IN MapForCouch() OUT -> IN Save()
+# Save partners into database
+SplitEntities() OUT -> IN FilterPartners() OUT -> IN MapPartners() OUT -> IN SetPartnerProps() OUT -> IN CopyPartnerProps() OUT -> IN Save()
+
+# Extract tasks from data
+'(\d+\.\d+)\sTask\:(.+)' -> REGEXP FilterTasks(FilterProperty)
+'1=name' -> MAP FlattenTasks(FlattenObject)
+'@type=task' -> PROPERTY SetTaskProps(SetProperty)
+'name=_id' -> PROPERTY CopyTaskProps(DuplicateProperty)
+'_id=(\d+\.\d+)\sTask\:(.+)=http://iks-project.eu/task/$1' -> REGEXP MapTaskUri(MapPropertyValue)
+'value' -> PROPERTY RemoveTaskProps(RemoveProperty)
+SplitEntities() OUT -> IN FilterTasks() OUT -> IN RemoveGroups(RemoveGroups) OUT -> IN SplitTasks(SplitArray) OUT -> IN CollectTasks(CollectGroups) OUT -> IN FlattenTasks() OUT -> IN CopyTaskProps() OUT -> IN MapTaskUri() OUT -> IN SetTaskProps() OUT -> IN RemoveTaskProps() OUT -> IN Save()
+
+# Extract effort allocations from data
+'Partner' -> KEY GroupByPartner(GroupByObjectKey)
+'(\d+\.\d+)\sTask\:(.+)' -> REGEXP FilterAllocTasks(FilterProperty)
+'0=task' -> MAP FlattenAllocTasks(FlattenObject)
+'1=assignee' -> MAP FlattenAllocTasks()
+'@type=effortallocation' -> PROPERTY SetAllocProps(SetProperty)
+'(\d+\.\d+)\sTask\:(.+)=http://iks-project.eu/task/$1' -> REGEXP MapAllocTaskUri(MapPropertyValue)
+
+# Save effort allocations into database
+SplitEntities() OUT -> IN RemoveSheet(RemoveGroups) OUT -> IN GroupByPartner() OUT -> IN FilterAllocTasks() OUT -> IN CollectAllocTasks(CollectGroups) OUT -> IN FlattenAllocTasks() OUT -> IN SetAllocProps() OUT -> IN MapAllocTaskUri() OUT -> IN Save()
