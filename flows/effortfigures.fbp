@@ -41,6 +41,8 @@ SplitEntities() OUT -> IN FilterPartners() OUT -> IN MapPartners() OUT -> IN Set
 'name=_id' -> PROPERTY CopyTaskProps(DuplicateProperty)
 '_id=(\d+\.\d+)\sTask\:(.+)=http://iks-project.eu/task/$1' -> REGEXP MapTaskUri(MapPropertyValue)
 'value' -> PROPERTY RemoveTaskProps(RemoveProperty)
+
+# Save tasks into database
 SplitEntities() OUT -> IN FilterTasks() OUT -> IN RemoveGroups(RemoveGroups) OUT -> IN SplitTasks(SplitArray) OUT -> IN CollectTasks(CollectGroups) OUT -> IN FlattenTasks() OUT -> IN CopyTaskProps() OUT -> IN MapTaskUri() OUT -> IN SetTaskProps() OUT -> IN RemoveTaskProps() OUT -> IN Save()
 
 # Extract effort allocations from data
@@ -50,6 +52,7 @@ SplitEntities() OUT -> IN FilterTasks() OUT -> IN RemoveGroups(RemoveGroups) OUT
 '1=assignee' -> MAP FlattenAllocTasks()
 '@type=effortallocation' -> PROPERTY SetAllocProps(SetProperty)
 '(\d+\.\d+)\sTask\:(.+)=http://iks-project.eu/task/$1' -> REGEXP MapAllocTaskUri(MapPropertyValue)
+'task=assignee=_id' -> PROPERTY CopyAllocProps(DuplicateProperty)
 
 # Save effort allocations into database
-SplitEntities() OUT -> IN RemoveSheet(RemoveGroups) OUT -> IN GroupByPartner() OUT -> IN FilterAllocTasks() OUT -> IN CollectAllocTasks(CollectGroups) OUT -> IN FlattenAllocTasks() OUT -> IN SetAllocProps() OUT -> IN MapAllocTaskUri() OUT -> IN Save()
+SplitEntities() OUT -> IN RemoveSheet(RemoveGroups) OUT -> IN GroupByPartner() OUT -> IN FilterAllocTasks() OUT -> IN CollectAllocTasks(CollectGroups) OUT -> IN FlattenAllocTasks() OUT -> IN SetAllocProps() OUT -> IN MapAllocTaskUri() OUT -> IN CopyAllocProps() OUT -> IN Save()
