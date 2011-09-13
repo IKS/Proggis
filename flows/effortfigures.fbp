@@ -16,12 +16,6 @@
 '3' -> SLICECOLUMNS.BEGIN Reader()
 '16' -> SLICECOLUMNS.END Reader()
 
-# Mappings for some properties
-'Partner=prj:assignee' -> MAP MapProps(MapProperty)
-'Country=foaf:country' -> MAP MapProps()
-'(\d+)\sWP\:\s(.+)=http://iks-project.eu/wp/$1' -> REGEXP MapProps()
-'(\d+\.\d+)\sTask\:(.+)=http://iks-project.eu/task/$1' -> REGEXP MapProps()
-
 # CouchDB ssettings
 'http://localhost:5984/default' -> URL Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION Save(WebService/CouchDB/SaveObject)
 
