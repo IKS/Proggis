@@ -1,7 +1,7 @@
 (keys, values, rereduce) ->
-    if rereduce
-        return sum values
+    return sum values if rereduce
+
     total = 0
     for value in values
-        total += parseFloat values.value
+        total += parseFloat value.value
     return total
