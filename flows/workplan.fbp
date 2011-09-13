@@ -1,0 +1,56 @@
+'parsespreadsheet.fbp' -> GRAPH Reader(Graph)
+
+'IKS_effortcontrolling.xlsx' -> READ.SOURCE Reader()
+
+# Workplan is the first spreadsheet in file
+'0' -> GETSHEET.KEY Reader()
+
+# We can skip some rows that contain unnecessary data
+'2' -> SLICEROWS.BEGIN Reader()
+'59' -> SLICEROWS.END Reader()
+
+# The label of the row is contained in the third column
+'2' -> GROUPBYROWLABEL.KEY Reader()
+
+# After reading the label, remove three first columns, and everything after real data
+'3' -> SLICECOLUMNS.BEGIN Reader()
+'19' -> SLICECOLUMNS.END Reader()
+
+# CouchDB ssettings
+'http://localhost:5984/default' -> URL Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION Save(WebService/CouchDB/SaveObject)
+
+# Get entities and split them to individual packets
+Reader() ENTITIZE.OUT -> IN SplitEntities(SplitArray)
+
+# Extract timeslots from data
+'Interactive Knowledge Workplan' -> ACCEPT FilterSlots(FilterProperty)
+# ...and map them to JSON-LD
+'Interactive Knowledge Workplan=_id' -> MAP MapSlots(MapProperty)
+'@type=timeslot' -> PROPERTY SetSlotProps(SetProperty)
+'_id=name' -> PROPERTY CopySlotProps(DuplicateProperty)
+
+# Save timeslots into database
+SplitEntities() OUT -> IN FilterSlots() OUT -> IN MapSlots() OUT -> IN SetSlotProps() OUT -> IN CopySlotProps() OUT -> IN Save()
+
+# Extract tasks from data
+'(\d+\.\d+)\sTask\:(.+)' -> REGEXP FilterTasks(FilterProperty)
+'1=name' -> MAP FlattenTasks(FlattenObject)
+'@type=task' -> PROPERTY SetTaskProps(SetProperty)
+'name=_id' -> PROPERTY CopyTaskProps(DuplicateProperty)
+'_id=(\d+\.\d+)\sTask\:(.+)=http://iks-project.eu/task/$1' -> REGEXP MapTaskUri(MapPropertyValue)
+'value' -> PROPERTY RemoveTaskProps(RemoveProperty)
+
+# Save tasks into database
+SplitEntities() OUT -> IN FilterTasks() OUT -> IN RemoveGroups(RemoveGroups) OUT -> IN SplitTasks(SplitArray) OUT -> IN CollectTasks(CollectGroups) OUT -> IN FlattenTasks() OUT -> IN CopyTaskProps() OUT -> IN MapTaskUri() OUT -> IN SetTaskProps() OUT -> IN RemoveTaskProps() OUT -> IN Save()
+
+# Extract effort allocations from data
+'Interactive Knowledge Workplan' -> KEY GroupByPartner(GroupByObjectKey)
+'(\d+\.\d+)\sTask\:(.+)' -> REGEXP FilterAllocTasks(FilterProperty)
+'0=task' -> MAP FlattenAllocTasks(FlattenObject)
+'1=timeslot' -> MAP FlattenAllocTasks()
+'@type=effortallocation' -> PROPERTY SetAllocProps(SetProperty)
+'(\d+\.\d+)\sTask\:(.+)=http://iks-project.eu/task/$1' -> REGEXP MapAllocTaskUri(MapPropertyValue)
+'task=timeslot=_id' -> PROPERTY CopyAllocProps(DuplicateProperty)
+
+# Save effort allocations into database
+SplitEntities() OUT -> IN RemoveSheet(RemoveGroups) OUT -> IN GroupByPartner() OUT -> IN FilterAllocTasks() OUT -> IN CollectAllocTasks(CollectGroups) OUT -> IN FlattenAllocTasks() OUT -> IN SetAllocProps() OUT -> IN MapAllocTaskUri() OUT -> IN CopyAllocProps() OUT -> IN Save()
