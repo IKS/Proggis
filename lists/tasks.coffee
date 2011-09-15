@@ -11,9 +11,9 @@
             o=o[keyEl]
         o.value = 0 unless o.value
         o.value += Number(row.value)
-
     json =
-        labels: ("WP#{n}" in n of [1..10])# TODO make it nicer
+        # labels: ("WP#{n}" in n of [1..10]) 
+        # TODO make it nicer
         values: []
     for timeslotKey, timeslotValue of values
         vals = []
@@ -23,4 +23,4 @@
             label: timeslotKey
             values: vals
     send JSON.stringify json
-    send "\n\n"
+

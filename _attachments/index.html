@@ -12,7 +12,7 @@
 
     <div id="profile"></div>
     <div id="items"></div>
-    <div id="graph"></div>
+    <div id="graph" style="height:600px;width:800px;"></div>
 
     <div id="sidebar">
       <p>Edit welcome message.</p>
@@ -22,11 +22,56 @@
   <script src="vendor/couchapp/loader.js"></script>
   <script type="text/javascript" charset="utf-8">
     $.couch.app(function(app) {
-      $("#graph").evently("graph", app);
-      $("#account").evently("account", app);
-      $("#profile").evently("profile", app);
-      $.evently.connect("#account","#profile", ["loggedIn","loggedOut"]);
+//        $("#graph").evently("graph", app);
+        $("#account").evently("account", app);
+        $("#profile").evently("profile", app);
+        $.evently.connect("#account","#profile", ["loggedIn","loggedOut"]);
 //      $("#items").evently("items", app);
+    });
+    $(document).ready(function(){
+        $.getJSON("_list/tasks/EffortAllocTime?group=true&group_level=3", function(json, textStatus, xhr){
+            var useGradients = true,
+                labelType = 'HTML';
+            var areaChart = new $jit.AreaChart({
+                //id of the visualization container  
+                injectInto: 'graph',  
+                //add animations  
+                animate: true,  
+                //separation offsets  
+                Margin: {
+                    top: 5, 
+                    left: 5,
+                    right: 5,
+                    bottom: 5
+                },
+                labelOffset: 10,  
+                //whether to display sums  
+                showAggregates: true,  
+                //whether to display labels at all  
+                showLabels: true,  
+                //could also be 'stacked'  
+                type: useGradients? 'stacked:gradient' : 'stacked',  
+                //label styling  
+                Label: {
+                    type: labelType, //can be 'Native' or 'HTML'  
+                    size: 13,  
+                    family: 'Arial',  
+                    color: 'black'  
+                },  
+                //enable tips  
+                Tips: {  
+                    enable: true,  
+                    onShow: function(tip, elem) {  
+                        tip.innerHTML = "<b>" + elem.name + "</b>: " + elem.value;  
+                    }  
+                },  
+                //add left and right click handlers  
+                filterOnClick: true,  
+                restoreOnRightClick:true  
+            });  
+            //load JSON data.  
+            areaChart.loadJSON(json);  
+        })
     });
   </script>
 </html>
