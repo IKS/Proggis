@@ -1,6 +1,11 @@
-'parsespreadsheet.fbp' -> GRAPH Reader(Graph)
+'ParseSpreadsheet.fbp' -> GRAPH Reader(Graph)
+'SaveIntoCouchDb.fbp' -> GRAPH Saver(Graph)
 
 'IKS_effortcontrolling.xlsx' -> READ.SOURCE Reader()
+'IKS_effortcontrolling.xlsx' -> SOURCE.VALUE Saver()
+
+# CouchDB Settings
+'http://localhost:5984/test' -> CONNECTION.URL Saver()
 
 # Workplan is the first spreadsheet in file
 '0' -> GETSHEET.KEY Reader()
@@ -16,9 +21,6 @@
 '3' -> SLICECOLUMNS.BEGIN Reader()
 '19' -> SLICECOLUMNS.END Reader()
 
-# CouchDB ssettings
-'http://localhost:5984/default' -> URL Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION Save(WebService/CouchDB/SaveObject)
-
 # Get entities and split them to individual packets
 Reader() ENTITIZE.OUT -> IN SplitEntities(SplitArray)
 
@@ -30,7 +32,7 @@ Reader() ENTITIZE.OUT -> IN SplitEntities(SplitArray)
 '_id=name' -> PROPERTY CopySlotProps(DuplicateProperty)
 
 # Save timeslots into database
-SplitEntities() OUT -> IN FilterSlots() OUT -> IN MapSlots() OUT -> IN SetSlotProps() OUT -> IN CopySlotProps() OUT -> IN Save()
+SplitEntities() OUT -> IN FilterSlots() OUT -> IN MapSlots() OUT -> IN SetSlotProps() OUT -> IN CopySlotProps() OUT -> SAVE.IN Saver()
 
 # Extract tasks from data
 '(\d+\.\d+)\sTask\:(.+)' -> REGEXP FilterTasks(FilterProperty)
@@ -41,7 +43,7 @@ SplitEntities() OUT -> IN FilterSlots() OUT -> IN MapSlots() OUT -> IN SetSlotPr
 'value' -> PROPERTY RemoveTaskProps(RemoveProperty)
 
 # Save tasks into database
-SplitEntities() OUT -> IN FilterTasks() OUT -> IN RemoveGroups(RemoveGroups) OUT -> IN SplitTasks(SplitArray) OUT -> IN CollectTasks(CollectGroups) OUT -> IN FlattenTasks() OUT -> IN CopyTaskProps() OUT -> IN MapTaskUri() OUT -> IN SetTaskProps() OUT -> IN RemoveTaskProps() OUT -> IN Save()
+SplitEntities() OUT -> IN FilterTasks() OUT -> IN RemoveGroups(RemoveGroups) OUT -> IN SplitTasks(SplitArray) OUT -> IN CollectTasks(CollectGroups) OUT -> IN FlattenTasks() OUT -> IN CopyTaskProps() OUT -> IN MapTaskUri() OUT -> IN SetTaskProps() OUT -> IN RemoveTaskProps() OUT -> SAVE.IN Saver()
 
 # Extract effort allocations from data
 'Interactive Knowledge Workplan' -> KEY GroupByPartner(GroupByObjectKey)
@@ -53,4 +55,4 @@ SplitEntities() OUT -> IN FilterTasks() OUT -> IN RemoveGroups(RemoveGroups) OUT
 'task=timeslot=_id' -> PROPERTY CopyAllocProps(DuplicateProperty)
 
 # Save effort allocations into database
-SplitEntities() OUT -> IN RemoveSheet(RemoveGroups) OUT -> IN GroupByPartner() OUT -> IN FilterAllocTasks() OUT -> IN CollectAllocTasks(CollectGroups) OUT -> IN FlattenAllocTasks() OUT -> IN SetAllocProps() OUT -> IN MapAllocTaskUri() OUT -> IN CopyAllocProps() OUT -> IN Save()
+SplitEntities() OUT -> IN RemoveSheet(RemoveGroups) OUT -> IN GroupByPartner() OUT -> IN FilterAllocTasks() OUT -> IN CollectAllocTasks(CollectGroups) OUT -> IN FlattenAllocTasks() OUT -> IN SetAllocProps() OUT -> IN MapAllocTaskUri() OUT -> IN CopyAllocProps() OUT -> SAVE.IN Saver()
