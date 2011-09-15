@@ -17,7 +17,7 @@
                 element.html('<div>' + listItems.join('</div><div>') + '</div>');
             }
             $(document).ready(function(){
-                $.getJSON("_list/tasks/EffortAllocTime?group=true&group_level=3", function(json, textStatus, xhr){
+                $.getJSON("_list/chart/EffortAllocTime?group=true&group_level=3", function(json, textStatus, xhr){
                     var useGradients = true,
                         labelType = 'HTML';
                     var areaChart = new $jit.AreaChart({
