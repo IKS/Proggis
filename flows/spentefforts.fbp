@@ -1,0 +1,79 @@
+'parsespreadsheet.fbp' -> GRAPH Reader(Graph)
+
+'IKS_effortcontrolling.xlsx' -> READ.SOURCE Reader()
+
+# Spent efforts are sheets 4-16
+'3' -> GETSHEET.KEY Reader()
+'4' -> GETSHEET.KEY Reader()
+'5' -> GETSHEET.KEY Reader()
+'6' -> GETSHEET.KEY Reader()
+'7' -> GETSHEET.KEY Reader()
+'8' -> GETSHEET.KEY Reader()
+'9' -> GETSHEET.KEY Reader()
+'10' -> GETSHEET.KEY Reader()
+'11' -> GETSHEET.KEY Reader()
+'12' -> GETSHEET.KEY Reader()
+'13' -> GETSHEET.KEY Reader()
+'14' -> GETSHEET.KEY Reader()
+'15' -> GETSHEET.KEY Reader()
+
+# We can skip some rows that contain unnecessary data
+'4' -> SLICEROWS.BEGIN Reader()
+'61' -> SLICEROWS.END Reader()
+
+# The label of the row is contained in the third column
+'2' -> GROUPBYROWLABEL.KEY Reader()
+
+# After reading the label, remove three first columns, and everything after real data
+'9' -> SLICECOLUMNS.BEGIN Reader()
+'24' -> SLICECOLUMNS.END Reader()
+
+# CouchDB settings
+'http://localhost:5984/default' -> URL Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION Save(WebService/CouchDB/SaveObject)
+
+# Get entities and split them to individual packets
+Reader() ENTITIZE.OUT -> IN SplitEntities(SplitArray)
+
+SplitEntities() OUT -> IN CollectCompanies(CollectGroups) OUT -> IN SplitSheets(SplitArray) OUT #-> IN Display(Output)
+
+# Extract timeunits from data
+'Partner' -> ACCEPT FilterSlots(FilterProperty)
+'value=name' -> MAP MapSlotProps(MapProperty)
+'name=_id' -> PROPERTY CopySlotProps(DuplicateProperty)
+'@type=timeslot' -> PROPERTY SetSlotProps(SetProperty)
+
+# We need to do a bit of mapping to get from the qu1 format to Y1Q1
+'name=qu(\d+)=$1' -> REGEXP MapSlotName(MapPropertyValue)
+'name=^(\d+)$' -> REGEXP FilterSlotsByName(FilterPropertyValue)
+'name' -> PROPERTY FixQuarters(./components/QCountToYQ)
+
+# Save timeunits into database
+SplitSheets() OUT -> IN FilterSlots() OUT -> IN SplitSlots(SplitArray) OUT -> IN FlattenSlots(FlattenObject) OUT -> IN MapSlotProps() OUT -> IN MapSlotName() OUT -> IN FilterSlotsByName() OUT -> IN FixQuarters() OUT -> IN CopySlotProps() OUT -> IN SetSlotProps() OUT -> IN UniqueSlots(UniquePacket) OUT -> IN Save()
+
+# Extract tasks from data
+'(\d+\.\d+)\sTask\:(.+)' -> REGEXP FilterTasks(FilterProperty)
+'2=name' -> MAP FlattenTasks(FlattenObject)
+'@type=task' -> PROPERTY SetTaskProps(SetProperty)
+'name=_id' -> PROPERTY CopyTaskProps(DuplicateProperty)
+'_id=(\d+\.\d+)\sTask\:(.+)=http://iks-project.eu/task/$1' -> REGEXP MapTaskUri(MapPropertyValue)
+'value' -> PROPERTY RemoveTaskProps(RemoveProperty)
+
+# Save tasks into database
+SplitSheets() OUT -> IN FilterTasks() OUT -> IN RemoveGroups(RemoveGroups) OUT -> IN SplitTasks(SplitArray) OUT -> IN CollectTasks(CollectGroups) OUT -> IN FlattenTasks() OUT -> IN CopyTaskProps() OUT -> IN MapTaskUri() OUT -> IN SetTaskProps() OUT -> IN RemoveTaskProps() OUT -> IN UniqueTasks(UniquePacket) OUT -> IN Save()
+
+# Extract reported efforts from data
+'(\d+\.\d+)\sTask\:(.+)' -> REGEXP FilterEffortTasks(FilterProperty)
+'0=task' -> MAP FlattenEfforts(FlattenObject)
+'1=timeslot' -> MAP FlattenEfforts()
+'3=assignee' -> MAP FlattenEfforts()
+'Partner' -> KEY GroupByQ(GroupByObjectKey)
+'(\d+\.\d+)\sTask\:(.+)=http://iks-project.eu/task/$1' -> REGEXP MapEffortValues(MapPropertyValue)
+'(\d\d)_([A-Z]+)=$2' -> REGEXP MapEffortValues()
+'timeslot=qu(\d+)=$1' -> REGEXP MapEffortValues()
+'timeslot=^(\d+)$' -> REGEXP FilterToQuarters(FilterPropertyValue)
+'timeslot' -> PROPERTY FixEffortQuarters(./components/QCountToYQ)
+'@type=effort' -> PROPERTY SetEffortProps(SetProperty)
+'task=assignee=timeslot=_id' -> PROPERTY CopyEffortProps(DuplicateProperty)
+
+# Save efforts to database
+SplitSheets() OUT -> IN RemoveSheet(RemoveGroups) OUT -> IN EntitizeByAssignee(PropertiesToObjects) OUT -> IN SplitEffortAssignee(SplitArray) OUT -> IN EntitizeByQ(PropertiesToObjects) OUT -> IN SplitByQ(SplitArray) OUT -> IN GroupByQ() OUT -> IN FilterEffortTasks() OUT -> IN CollectEfforts(CollectGroups) OUT -> IN FlattenEfforts() OUT -> IN MapEffortValues() OUT -> IN FilterToQuarters() OUT -> IN FixEffortQuarters() OUT -> IN SetEffortProps() OUT -> IN CopyEffortProps() OUT -> IN Save()
