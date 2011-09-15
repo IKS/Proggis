@@ -16,7 +16,7 @@
 '3' -> SLICECOLUMNS.BEGIN Reader()
 '16' -> SLICECOLUMNS.END Reader()
 
-# CouchDB ssettings
+# CouchDB settings
 'http://localhost:5984/default' -> URL Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION Save(WebService/CouchDB/SaveObject)
 
 # Get entities and split them to individual packets
