@@ -17,12 +17,48 @@
                 element.html('<div>' + listItems.join('</div><div>') + '</div>');
             }
             $(document).ready(function(){
-                $.getJSON("_list/chart/EffortAllocTime?group=true&group_level=3", function(json, textStatus, xhr){
+                var tasks, areaChart;
+                function load(taskFilter){
+                    var uri = "_list/chart/EffortAllocTime?group=true";
+                    var update = false;
+                    if(taskFilter){
+                        uri += "&group_level=4";
+                        uri += "&task_filter=" + taskFilter;
+                        update = true;
+                    } else {
+                        uri += "&group_level=3";
+                    }
+                    $.getJSON(uri, function(json, textStatus, xhr){
+                        tasks = json.label;
+                        if(update){
+                            init();
+                            areaChart.loadJSON(json);;
+                        } else {
+                            areaChart.loadJSON(json);
+                        }
+                        legend(areaChart, $('.legend'));
+                    });
+                }
+                function init(){
+                    document.getElementById("visualization").innerHTML="";
                     var useGradients = true,
                         labelType = 'HTML';
-                    var areaChart = new $jit.AreaChart({
+                    areaChart = new $jit.AreaChart({
                         //id of the visualization container
                         injectInto: "visualization",
+                        Events:{
+                            enable: true,
+                            onClick: function(node, eventInfo, e){
+                                var selected = tasks.indexOf(node.name);
+                                areaChart.filter([node.name], {
+                                    onComplete: function(){
+                                        console.info("selected", selected);
+                                        load(selected+1);
+                                    }
+                                })
+                                // console.info("click", arguments);
+                            }
+                        },
                         //add animations
                         animate: true,
                         //separation offsets
@@ -54,13 +90,14 @@
                             }
                         },
                         //add left and right click handlers
-                        filterOnClick: true,
+//                        filterOnClick: true,
                         restoreOnRightClick:true
                     });
-                    //load JSON data.
-                    areaChart.loadJSON(json);
-                    legend(areaChart, $('.legend'));
-                })
+                }
+                init();
+                //load JSON data.
+                load();
+
             });
         </script>
     </head>

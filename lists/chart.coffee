@@ -3,6 +3,7 @@
     values = {}
     view = req.path.pop()
     groupLevel = req.query.group_level
+    taskFilter = Number req.query.task_filter
     json = {}
     keyLabel = (key) ->
         key.replace ",", "."
@@ -12,14 +13,15 @@
             while row = getRow()
                 keyTimeslot = ["Y#{row.key.shift()}Q#{row.key.shift()}"]
                 keyTask = row.key
-                key = [keyTimeslot, keyTask]
+                if taskFilter and keyTask[0] is taskFilter or not taskFilter
+                    key = [keyTimeslot, keyTask]
 
-                o = values
-                for i, keyEl of key
-                    o[keyEl] = {} unless o[keyEl] instanceof Object
-                    o=o[keyEl]
-                o.value = 0 unless o.value
-                o.value += Number(row.value)
+                    o = values
+                    for i, keyEl of key
+                        o[keyEl] = {} unless o[keyEl] instanceof Object
+                        o=o[keyEl]
+                    o.value = 0 unless o.value
+                    o.value += Number(row.value)
             json.values = []
             switch groupLevel
                 when "3"
