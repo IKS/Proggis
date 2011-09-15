@@ -1,0 +1,142 @@
+body {
+    background-color: #000000;
+    color: #eeeeec;
+    font-family: "Helvetica", "Arial", sans-serif;
+    padding-top: 1em;
+}
+
+header nav ol {
+    padding: 0px;
+    margin: 0px;
+}
+header nav ol li {
+    margin: 0px;
+    margin-right: 6px;
+    display: inline;
+    list-style: none;
+}
+header nav ol li a {
+    padding: 6px;
+    border-radius: 6px;
+    background-color: #babdb6;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #000000;
+}
+header nav ol li a:hover {
+    background-color: #729fcf;
+}
+
+
+section {
+    padding-top: 1em;
+}
+
+section article h1 {
+    margin: 0px;
+    margin-top: 1em;
+    padding: 0px;
+}
+
+section article .graph #visualization {
+    height: 500px;
+    width: 100%;
+}
+
+#legend li {
+  list-style: none;
+  margin-bottom:3px;
+}
+
+section article .graph .legend {
+    width: 30%;
+    margin-top: 1em;
+    float: right;
+}
+section article .graph .legend .box-color {
+    border:1px solid #999999;
+    float:left;
+    height:10px;
+    margin:3px 3px 0 0;
+    width:10px;
+}
+section article .graph .legend div {
+    float: left;
+    padding: 0 10px;
+}
+
+section article nav {
+    float: right;
+    clear: right;
+    width: 30%;
+}
+
+section article nav ul {
+    padding: 0px;
+    margin: 0px;
+    padding-top: 1em;
+}
+
+section article nav ul li {
+    list-style: none;
+    margin: 0px;
+}
+
+section article nav ul li a {
+    padding: 6px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    display: block;
+    width: 80%;
+    background-color: #babdb6;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #000000;
+}
+
+section article nav ul li a:hover {
+    background-color: #729fcf;
+}
+
+section article .info {
+    padding-top: 1em;
+    width: 65%;
+}
+
+footer {
+    width: 100%;
+    margin-top: 1em;
+}
+
+footer a {
+    background: url('iks-logo.png');
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 32px;
+    display: block;
+    margin-bottom: 1em;
+    float: right;
+    clear: right;
+}
+
+footer a span {
+    display: none;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    background-color: #000000;
+}
+ 
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    background: #2e3436;
+}
