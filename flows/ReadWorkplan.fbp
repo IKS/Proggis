@@ -5,7 +5,7 @@
 'IKS_effortcontrolling.xlsx' -> SOURCE.VALUE Saver()
 
 # CouchDB Settings
-'http://localhost:5984/test' -> CONNECTION.URL Saver()
+'http://localhost:5984/default' -> CONNECTION.URL Saver()
 
 # Workplan is the first spreadsheet in file
 '0' -> GETSHEET.KEY Reader()
