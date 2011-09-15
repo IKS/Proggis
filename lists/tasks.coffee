@@ -11,12 +11,14 @@
             o=o[keyEl]
         o.value = 0 unless o.value
         o.value += Number(row.value)
+#    send JSON.stringify values
     json =
-        # labels: ("WP#{n}" in n of [1..10]) 
+        label: ("WP#{n}" for n in [1..10])
         # TODO make it nicer
         values: []
     for timeslotKey, timeslotValue of values
         vals = []
+#        send "#{JSON.stringify(Object.keys(timeslotValue))}\n\n"
         for key, task of timeslotValue
             vals.push task.value
         json.values.push
