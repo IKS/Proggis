@@ -1,0 +1,19 @@
+# Saving needs a connection
+Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION SaveExec(WebService/CouchDB/SaveObject)
+Connection() CONNECTION -> CONNECTION SaveDocument(WebService/CouchDB/SaveObject)
+#'http://localhost:5984/test' -> URL Connection()
+
+# Create a Workflow Execution document
+'@type=execution' -> PROPERTY SetExecProps(SetProperty)
+'start' -> PROPERTY SetExecDate(SetPropertyValue)
+'now' -> IN Date(CreateDate) OUT -> VALUE SetExecDate()
+'source' -> PROPERTY Source(SetPropertyValue)
+' ' -> START PrepareExec(CreateObject) 
+PrepareExec() OUT -> IN SetExecProps() OUT -> IN SetExecDate() OUT -> IN Source() OUT -> IN SaveExec()
+
+# Get the ID of the execution document and add it to all docs
+'_id' -> KEY GetExecId(GetObjectKey) OUT
+'source' -> PROPERTY SetSource(SetPropertyValue)
+SaveExec() OUT -> IN GetExecId() OUT -> VALUE SetSource()
+
+Save(Merge) OUT -> IN SetSource() OUT -> IN SaveDocument()

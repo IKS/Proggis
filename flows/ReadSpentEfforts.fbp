@@ -1,6 +1,11 @@
-'parsespreadsheet.fbp' -> GRAPH Reader(Graph)
+'ParseSpreadsheet.fbp' -> GRAPH Reader(Graph)
+'SaveIntoCouchDb.fbp' -> GRAPH Saver(Graph)
 
 'IKS_effortcontrolling.xlsx' -> READ.SOURCE Reader()
+'IKS_effortcontrolling.xlsx' -> SOURCE.VALUE Saver()
+
+# CouchDB Settings
+'http://localhost:5984/default' -> CONNECTION.URL Saver()
 
 # Spent efforts are sheets 4-16
 '3' -> GETSHEET.KEY Reader()
@@ -28,9 +33,6 @@
 '9' -> SLICECOLUMNS.BEGIN Reader()
 '24' -> SLICECOLUMNS.END Reader()
 
-# CouchDB settings
-'http://localhost:5984/default' -> URL Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION Save(WebService/CouchDB/SaveObject)
-
 # Get entities and split them to individual packets
 Reader() ENTITIZE.OUT -> IN SplitEntities(SplitArray)
 
@@ -48,7 +50,7 @@ SplitEntities() OUT -> IN CollectCompanies(CollectGroups) OUT -> IN SplitSheets(
 'name' -> PROPERTY FixQuarters(./components/QCountToYQ)
 
 # Save timeunits into database
-SplitSheets() OUT -> IN FilterSlots() OUT -> IN SplitSlots(SplitArray) OUT -> IN FlattenSlots(FlattenObject) OUT -> IN MapSlotProps() OUT -> IN MapSlotName() OUT -> IN FilterSlotsByName() OUT -> IN FixQuarters() OUT -> IN CopySlotProps() OUT -> IN SetSlotProps() OUT -> IN UniqueSlots(UniquePacket) OUT -> IN Save()
+SplitSheets() OUT -> IN FilterSlots() OUT -> IN SplitSlots(SplitArray) OUT -> IN FlattenSlots(FlattenObject) OUT -> IN MapSlotProps() OUT -> IN MapSlotName() OUT -> IN FilterSlotsByName() OUT -> IN FixQuarters() OUT -> IN CopySlotProps() OUT -> IN SetSlotProps() OUT -> IN UniqueSlots(UniquePacket) OUT -> SAVE.IN Saver()
 
 # Extract tasks from data
 '(\d+\.\d+)\sTask\:(.+)' -> REGEXP FilterTasks(FilterProperty)
@@ -59,7 +61,7 @@ SplitSheets() OUT -> IN FilterSlots() OUT -> IN SplitSlots(SplitArray) OUT -> IN
 'value' -> PROPERTY RemoveTaskProps(RemoveProperty)
 
 # Save tasks into database
-SplitSheets() OUT -> IN FilterTasks() OUT -> IN RemoveGroups(RemoveGroups) OUT -> IN SplitTasks(SplitArray) OUT -> IN CollectTasks(CollectGroups) OUT -> IN FlattenTasks() OUT -> IN CopyTaskProps() OUT -> IN MapTaskUri() OUT -> IN SetTaskProps() OUT -> IN RemoveTaskProps() OUT -> IN UniqueTasks(UniquePacket) OUT -> IN Save()
+SplitSheets() OUT -> IN FilterTasks() OUT -> IN RemoveGroups(RemoveGroups) OUT -> IN SplitTasks(SplitArray) OUT -> IN CollectTasks(CollectGroups) OUT -> IN FlattenTasks() OUT -> IN CopyTaskProps() OUT -> IN MapTaskUri() OUT -> IN SetTaskProps() OUT -> IN RemoveTaskProps() OUT -> IN UniqueTasks(UniquePacket) OUT -> SAVE.IN Saver()
 
 # Extract reported efforts from data
 '(\d+\.\d+)\sTask\:(.+)' -> REGEXP FilterEffortTasks(FilterProperty)
@@ -76,4 +78,4 @@ SplitSheets() OUT -> IN FilterTasks() OUT -> IN RemoveGroups(RemoveGroups) OUT -
 'task=assignee=timeslot=_id' -> PROPERTY CopyEffortProps(DuplicateProperty)
 
 # Save efforts to database
-SplitSheets() OUT -> IN RemoveSheet(RemoveGroups) OUT -> IN EntitizeByAssignee(PropertiesToObjects) OUT -> IN SplitEffortAssignee(SplitArray) OUT -> IN EntitizeByQ(PropertiesToObjects) OUT -> IN SplitByQ(SplitArray) OUT -> IN GroupByQ() OUT -> IN FilterEffortTasks() OUT -> IN CollectEfforts(CollectGroups) OUT -> IN FlattenEfforts() OUT -> IN MapEffortValues() OUT -> IN FilterToQuarters() OUT -> IN FixEffortQuarters() OUT -> IN SetEffortProps() OUT -> IN CopyEffortProps() OUT -> IN Save()
+SplitSheets() OUT -> IN RemoveSheet(RemoveGroups) OUT -> IN EntitizeByAssignee(PropertiesToObjects) OUT -> IN SplitEffortAssignee(SplitArray) OUT -> IN EntitizeByQ(PropertiesToObjects) OUT -> IN SplitByQ(SplitArray) OUT -> IN GroupByQ() OUT -> IN FilterEffortTasks() OUT -> IN CollectEfforts(CollectGroups) OUT -> IN FlattenEfforts() OUT -> IN MapEffortValues() OUT -> IN FilterToQuarters() OUT -> IN FixEffortQuarters() OUT -> IN SetEffortProps() OUT -> IN CopyEffortProps() OUT -> SAVE.IN Saver()
