@@ -23,24 +23,17 @@
             json.values = []
             switch groupLevel
                 when "3"
-                    for timeslotKey, timeslotValue of values
-                        vals = []
-                        json.label = []
-                        for key, task of timeslotValue
-                            vals.push task.value
-                            json.label.push "WP #{keyLabel key}"
-                        json.values.push
-                            label: timeslotKey
-                            values: vals
+                    labelPrefix = "WP"
                 when "4"
-                    for timeslotKey, timeslotValue of values
-                        vals = []
-                        json.label = []
-                        for key, task of timeslotValue
-                            vals.push task.value
-                            json.label.push "Task #{keyLabel key}"
-                        json.values.push
-                            label: timeslotKey
-                            values: vals
+                    labelPrefix = "Task"
+            for timeslotKey, timeslotValue of values
+                vals = []
+                json.label = []
+                for key, task of timeslotValue
+                    vals.push task.value
+                    json.label.push "#{labelPrefix} #{keyLabel key}"
+                json.values.push
+                    label: timeslotKey
+                    values: vals
     send JSON.stringify json
 
