@@ -25,7 +25,7 @@ header nav ol li a {
     color: #000000;
 }
 header nav ol li a:hover {
-    background-color: #729fcf;
+    background-color: #0b6fae;
 }
 
 
@@ -97,7 +97,7 @@ section article nav ul li a {
 }
 
 section article nav ul li a:hover {
-    background-color: #729fcf;
+    background-color: #0b6fae;
 }
 
 section article .info {
