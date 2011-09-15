@@ -18,12 +18,16 @@ header nav ol li {
 header nav ol li a {
     padding: 6px;
     border-radius: 6px;
-    background-color: #729fcf;
+    background-color: #babdb6;
     text-decoration: none;
     text-transform: uppercase;
     font-weight: bold;
     color: #000000;
 }
+header nav ol li a:hover {
+    background-color: #729fcf;
+}
+
 
 section {
     padding-top: 1em;
@@ -59,23 +63,28 @@ section article nav ul {
     padding: 0px;
     margin: 0px;
     padding-top: 1em;
-    padding-left: 1em;
 }
 
 section article nav ul li {
     list-style: none;
     margin: 0px;
-    margin-bottom: 1.5em;
 }
 
 section article nav ul li a {
     padding: 6px;
     border-radius: 6px;
-    background-color: #729fcf;
+    margin-bottom: 12px;
+    display: block;
+    width: 80%;
+    background-color: #babdb6;
     text-decoration: none;
     text-transform: uppercase;
     font-weight: bold;
     color: #000000;
+}
+
+section article nav ul li a:hover {
+    background-color: #729fcf;
 }
 
 section article .info {
@@ -101,4 +110,20 @@ footer a {
 
 footer a span {
     display: none;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    background-color: #000000;
+}
+ 
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    background: #2e3436;
 }
