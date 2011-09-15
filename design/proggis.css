@@ -1,0 +1,104 @@
+body {
+    background-color: #000000;
+    color: #eeeeec;
+    font-family: "Helvetica", "Arial", sans-serif;
+    padding-top: 1em;
+}
+
+header nav ol {
+    padding: 0px;
+    margin: 0px;
+}
+header nav ol li {
+    margin: 0px;
+    margin-right: 6px;
+    display: inline;
+    list-style: none;
+}
+header nav ol li a {
+    padding: 6px;
+    border-radius: 6px;
+    background-color: #729fcf;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #000000;
+}
+
+section {
+    padding-top: 1em;
+}
+
+section article h1 {
+    margin: 0px;
+    margin-top: 1em;
+    padding: 0px;
+}
+
+section article .graph .visualization {
+    height: 500px;
+    width: 100%;
+    background-color: #2e3436;
+}
+
+section article .graph .legend {
+    width: 30%;
+    height: 150px;
+    margin-top: 1em;
+    float: right;
+    background-color: #2e3436;
+}
+
+section article nav {
+    float: right;
+    clear: right;
+    width: 30%;
+}
+
+section article nav ul {
+    padding: 0px;
+    margin: 0px;
+    padding-top: 1em;
+    padding-left: 1em;
+}
+
+section article nav ul li {
+    list-style: none;
+    margin: 0px;
+    margin-bottom: 1.5em;
+}
+
+section article nav ul li a {
+    padding: 6px;
+    border-radius: 6px;
+    background-color: #729fcf;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #000000;
+}
+
+section article .info {
+    padding-top: 1em;
+    width: 65%;
+}
+
+footer {
+    width: 100%;
+    margin-top: 1em;
+}
+
+footer a {
+    background: url('iks-logo.png');
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 32px;
+    display: block;
+    margin-bottom: 1em;
+    float: right;
+    clear: right;
+}
+
+footer a span {
+    display: none;
+}
