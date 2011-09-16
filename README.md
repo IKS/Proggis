@@ -165,6 +165,14 @@ States are:
 * accepted: user has accepted the imported data
 * rejected: user has rejected the imported data
 
+## Usage
+
+* You need a running CouchDB instance and CoffeeApp
+* Install the Proggis views with `coffeeapp push`
+* Keep a watcher for data imports running with `$ noflo ReadEffortControlling.fbp`
+* If you want to import data manually, run `$ noflo StartEffortFigures.fbp`
+* The user interface is by default in <http://localhost:5984/default/_design/Proggis/index.html>
+
 ## Contributing
 
 Proggis is a free software project, available under the [MIT license](http://www.opensource.org/licenses/mit-license.php). Proggis is developed as part of the EU-funded [IKS-project](http://www.iks-project.eu/).
