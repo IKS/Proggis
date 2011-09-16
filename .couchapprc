@@ -4,5 +4,7 @@
       "db" : "http://localhost:5984/default",
       "make_dumps": false
     }
-  }
+  },
+  "makeReleaseVersions": false,
+  "designdocName": "Proggis"
 }
