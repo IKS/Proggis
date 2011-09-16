@@ -8,6 +8,8 @@ Proggis.Chart =
         for name of legend
             listItems.push "<span class='box-color' style='background-color:" + legend[name] + "'>&nbsp;</span>" + name
         element.html "<div>" + listItems.join("</div><div>") + "</div>"
+    legendClear: (element) ->
+        element.html ""
     loadChart: (viewName, groupLevel, filterParam) ->
         uri = "_list/chart/#{viewName}?group=true"
         update = false
@@ -23,7 +25,8 @@ Proggis.Chart =
                 @areaChart.loadJSON json
             else
                 @areaChart.loadJSON json
-                @legend @areaChart, $(".legend")
+            @legend @areaChart, $(".legend")
+        @legendClear $(".legend")
     init: (onClickHandler) ->
         document.getElementById("visualization").innerHTML = ""
         useGradients = true

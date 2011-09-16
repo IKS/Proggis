@@ -3,27 +3,25 @@ Proggis.RouterClass = Backbone.Router.extend
     routes:
         "": "home"
         "planning/": "planning"
-        "planning/task/:task": "planningTask"
+        "planning/wbs/:wbs": "planningWbs"
         "monitoring/": "monitoring"
     home: ->
 
     planning: ->
         Proggis.Chart.init (node) ->
-            selected = Proggis.Chart.data.label.indexOf node.name
             key = node.name.match( /([0-9]+)/g )[0]
             console.log "change to", key
-            Proggis.router.navigate "planning/task/#{key}", true
+            Proggis.router.navigate "planning/wbs/#{key}", true
         Proggis.Chart.loadChart "EffortAllocTime", 3
 
-    planningTask: (task) ->
-        console.log "planningTask", task
+    planningWbs: (wbs) ->
+        console.log "planningWbs", wbs
         Proggis.Chart.init (node) ->
-            selected = Proggis.Chart.data.label.indexOf node.name
             key = node.name.match( /([0-9]+)/g )[0]
             console.log "change to", key
-            Proggis.router.navigate "planning/task/#{key}", true
-        Proggis.Chart.loadChart "EffortAllocTime", 4, task
-        console.log "task #{task}"
+            Proggis.router.navigate "planning/wbs/#{key}", true
+        Proggis.Chart.loadChart "EffortAllocTime", 4, wbs
+        console.log "wbs #{wbs}"
     monitoring: ->
         console.log "monitoring"
 
