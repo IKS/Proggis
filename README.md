@@ -140,7 +140,7 @@ For example, tasks are read from BaseCamp using a process like the following:
 * Converter converts BaseCamp tasks into JSON-LD
 * Importer imports each task into the CouchDB repository
 
-Each data importing run, regardless of source, should be trackable separately. This way it is easy to see all information provided in a given data import, and for example to delete it in case of mistakes.
+Each data importing run, regardless of source, should be trackable separately. This way it is easy to see all information provided in a given data import, and for example to delete it in case of mistakes. See _Workflow execution documents_.
 
 There may be multiple data formats supported by the importing tools. Some useful ones include:
 
@@ -149,6 +149,21 @@ There may be multiple data formats supported by the importing tools. Some useful
 * JSON-LD and XML
 
 Proggis should support at least import, and in some cases export, for these formats. When importing file formats like ODF, Proggis could retain the original imported file as a binary property of the import operation to aid tracing potential import problems due to the file.
+
+#### Workflow execution documents
+
+Each run of a NoFlo workflow should result in a workflow execution document with ´@type` of `execution` to be stored in the database. All documents touched during the workflow run will be tagged with `source` pointing to this document.
+
+Workflows are triggered by creation of a new execution document. There are CouchDB changes API listeners querying these, and based on the state of the execution, and the selected workflow they will initiate the correct NoFlo.
+
+States are:
+
+* waiting_request: the execution needs to send a data request which has not yet been sent
+* waiting_response: the execution has sent a data request and is now waiting for response
+* data_received: the execution has the data it needs, but it hasn't yet been imported
+* data_imported: data has been imported, and is waiting for verification
+* accepted: user has accepted the imported data
+* rejected: user has rejected the imported data
 
 ## Contributing
 

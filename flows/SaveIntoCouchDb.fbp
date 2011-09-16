@@ -1,19 +1,26 @@
 # Saving needs a connection
 Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION SaveExec(WebService/CouchDB/WriteDocument)
+Connection() CONNECTION -> CONNECTION UpdateExec(WebService/CouchDB/WriteDocument)
 Connection() CONNECTION -> CONNECTION SaveDocument(WebService/CouchDB/WriteDocument)
-#'http://localhost:5984/test' -> URL Connection()
 
 # Create a Workflow Execution document
 '@type=execution' -> PROPERTY SetExecProps(SetProperty)
+'state=data_received' -> PROPERTY SetExecProps(SetProperty)
 'start' -> PROPERTY SetExecDate(SetPropertyValue)
-'now' -> IN Date(CreateDate) OUT -> VALUE SetExecDate()
+'now' -> IN StartDate(CreateDate) OUT -> VALUE SetExecDate()
 'source' -> PROPERTY Source(SetPropertyValue)
 ' ' -> START PrepareExec(CreateObject) 
-PrepareExec() OUT -> IN SetExecProps() OUT -> IN SetExecDate() OUT -> IN Source() OUT -> IN SaveExec()
+PrepareExec() OUT -> IN SetExecProps() OUT -> IN SetExecDate() OUT -> IN Source() OUT -> IN SaveExec() OUT -> IN SplitExec(Split) OUT -> IN Display(Output)
 
 # Get the ID of the execution document and add it to all docs
 '_id' -> KEY GetExecId(GetObjectKey) OUT
 'source' -> PROPERTY SetSource(SetPropertyValue)
-SaveExec() OUT -> IN GetExecId() OUT -> VALUE SetSource()
+SplitExec() OUT -> IN GetExecId() OUT -> VALUE SetSource()
 
-Save(Merge) OUT -> IN SetSource() OUT -> IN SaveDocument()
+Save(Merge) OUT -> IN SetSource() OUT -> IN SaveDocument() OUT -> IN KickExecUpdate(Kick)
+
+# Update execution document once everything is imported
+KickExecUpdate() OUT -> IN EndDate(CreateDate) OUT -> VALUE UpdateExecDate(SetPropertyValue)
+'end' -> PROPERTY UpdateExecDate()
+'state=data_imported' -> PROPERTY UpdateExecProps(SetProperty)
+SplitExec() OUT -> IN UpdateExecProps() OUT -> IN UpdateExecDate() OUT -> IN UpdateExec()
