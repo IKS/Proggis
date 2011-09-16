@@ -7,6 +7,7 @@ Proggis.RouterClass = Backbone.Router.extend
         "monitoring/": "monitoring"
     home: ->
         Proggis.Chart.init (node) ->
+        Proggis.Chart.legendClear $(".legend")
 
     planning: ->
         Proggis.Chart.init (node) ->
@@ -26,6 +27,7 @@ Proggis.RouterClass = Backbone.Router.extend
     monitoring: ->
         console.log "monitoring"
         Proggis.Chart.init (node) ->
+        Proggis.Chart.legendClear $(".legend")
 
 jQuery(document).ready ->
     Proggis.router = new Proggis.RouterClass
