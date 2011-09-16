@@ -6,6 +6,7 @@ Proggis.RouterClass = Backbone.Router.extend
         "planning/wbs/:wbs": "planningWbs"
         "monitoring/": "monitoring"
     home: ->
+        Proggis.Chart.init (node) ->
 
     planning: ->
         Proggis.Chart.init (node) ->
@@ -24,6 +25,7 @@ Proggis.RouterClass = Backbone.Router.extend
         console.log "wbs #{wbs}"
     monitoring: ->
         console.log "monitoring"
+        Proggis.Chart.init (node) ->
 
 jQuery(document).ready ->
     Proggis.router = new Proggis.RouterClass
