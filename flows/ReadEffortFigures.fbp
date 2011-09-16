@@ -1,12 +1,20 @@
+# Parsing effort figures into CouchDB. This graph provides the
+# following inports:
+#
+# * CONNECTION.IN: A CouchDB connection
+# * EXECDOC.IN: receiver for execution documents
+# * FILENAME.IN: spreadsheet filename to parse
+
 'ParseSpreadsheet.fbp' -> GRAPH Reader(Graph)
 'SaveIntoCouchDb.fbp' -> GRAPH Saver(Graph)
 
 # Data filename
-'IKS_effortcontrolling.xlsx' -> READ.SOURCE Reader()
-'IKS_effortcontrolling.xlsx' -> SOURCE.VALUE Saver()
+Filename(Split) OUT -> READ.SOURCE Reader()
 
-# CouchDB Settings
-'http://localhost:5984/default' -> CONNECTION.URL Saver()
+# Execution document
+ExecDoc(Split) OUT -> EXECDOC.IN Saver()
+# Pass CouchDB settings
+Connection(Split) OUT -> CONNECTION.IN Saver()
 
 # Effort figures are contained in the second spreadsheet of the file
 '1' -> GETSHEET.KEY Reader()
