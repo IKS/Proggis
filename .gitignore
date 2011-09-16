@@ -2,3 +2,4 @@
 *.jar
 _components
 .releases
+.node_shell
