@@ -1,6 +1,6 @@
 # Saving needs a connection
-Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION SaveExec(WebService/CouchDB/SaveObject)
-Connection() CONNECTION -> CONNECTION SaveDocument(WebService/CouchDB/SaveObject)
+Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION SaveExec(WebService/CouchDB/WriteDocument)
+Connection() CONNECTION -> CONNECTION SaveDocument(WebService/CouchDB/WriteDocument)
 #'http://localhost:5984/test' -> URL Connection()
 
 # Create a Workflow Execution document
