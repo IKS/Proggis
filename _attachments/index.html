@@ -5,8 +5,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" href="style/proggis.css" />
         <script src="vendor/couchapp/loader.js"></script>
-        <script src="js/jit.js"></script>
         <script>
+            var tasks, areaChart;
             function legend(chart, element){
                 var legend = chart.getLegend(),
                     listItems = [];
@@ -16,88 +16,86 @@
                 }
                 element.html('<div>' + listItems.join('</div><div>') + '</div>');
             }
-            $(document).ready(function(){
-                var tasks, areaChart;
-                function load(taskFilter){
-                    var uri = "_list/chart/EffortAllocTime?group=true";
-                    var update = false;
-                    if(taskFilter){
-                        uri += "&group_level=4";
-                        uri += "&task_filter=" + taskFilter;
-                        update = true;
+            function loadPlanChart(taskFilter){
+                var uri = "_list/chart/EffortAllocTime?group=true";
+                var update = false;
+                if(taskFilter){
+                    uri += "&group_level=4";
+                    uri += "&task_filter=" + taskFilter;
+                    update = true;
+                } else {
+                    uri += "&group_level=3";
+                }
+                $.getJSON(uri, function(json, textStatus, xhr){
+                    tasks = json.label;
+                    if(update){
+                        init();
+                        areaChart.loadJSON(json);;
                     } else {
-                        uri += "&group_level=3";
+                        areaChart.loadJSON(json);
                     }
-                    $.getJSON(uri, function(json, textStatus, xhr){
-                        tasks = json.label;
-                        if(update){
-                            init();
-                            areaChart.loadJSON(json);;
-                        } else {
-                            areaChart.loadJSON(json);
+                    legend(areaChart, $('.legend'));
+                });
+            }
+            function init(onClick){
+                document.getElementById("visualization").innerHTML="";
+                var useGradients = true,
+                    labelType = 'HTML';
+                areaChart = new $jit.AreaChart({
+                    //id of the visualization container
+                    injectInto: "visualization",
+                    Events:{
+                        enable: true,
+                        onClick: onClick
+                    },
+                    //add animations
+                    animate: true,
+                    //separation offsets
+                    Margin: {
+                        top: 5, 
+                        left: 5,
+                        right: 5,
+                        bottom: 5
+                    },
+                    labelOffset: 10,
+                    //whether to display sums
+                    showAggregates: true,
+                    //whether to display labels at all
+                    showLabels: true,
+                    //could also be 'stacked'
+                    type: useGradients? 'stacked:gradient' : 'stacked',
+                    //label styling
+                    Label: {
+                        type: labelType, //can be 'Native' or 'HTML'
+                        size: 13,
+                        family: 'Arial',
+                        color: 'white'
+                    },
+                    //enable tips
+                    Tips: {
+                        enable: true,
+                        onShow: function(tip, elem) {
+                            tip.innerHTML = "<b>" + elem.name + "</b>: " + elem.value;
                         }
-                        legend(areaChart, $('.legend'));
-                    });
-                }
-                function init(){
-                    document.getElementById("visualization").innerHTML="";
-                    var useGradients = true,
-                        labelType = 'HTML';
-                    areaChart = new $jit.AreaChart({
-                        //id of the visualization container
-                        injectInto: "visualization",
-                        Events:{
-                            enable: true,
-                            onClick: function(node, eventInfo, e){
-                                var selected = tasks.indexOf(node.name);
-                                areaChart.filter([node.name], {
-                                    onComplete: function(){
-                                        console.info("selected", selected);
-                                        load(selected+1);
-                                    }
-                                })
-                                // console.info("click", arguments);
-                            }
-                        },
-                        //add animations
-                        animate: true,
-                        //separation offsets
-                        Margin: {
-                            top: 5, 
-                            left: 5,
-                            right: 5,
-                            bottom: 5
-                        },
-                        labelOffset: 10,
-                        //whether to display sums
-                        showAggregates: true,
-                        //whether to display labels at all
-                        showLabels: true,
-                        //could also be 'stacked'
-                        type: useGradients? 'stacked:gradient' : 'stacked',
-                        //label styling
-                        Label: {
-                            type: labelType, //can be 'Native' or 'HTML'
-                            size: 13,
-                            family: 'Arial',
-                            color: 'white'
-                        },
-                        //enable tips
-                        Tips: {
-                            enable: true,
-                            onShow: function(tip, elem) {
-                                tip.innerHTML = "<b>" + elem.name + "</b>: " + elem.value;
-                            }
-                        },
-                        //add left and right click handlers
+                    },
+                    //add left and right click handlers
 //                        filterOnClick: true,
-                        restoreOnRightClick:true
-                    });
-                }
-                init();
-                //load JSON data.
-                load();
-
+                    restoreOnRightClick:true
+                });
+            }
+            $(document).ready(function(){
+                init(function(node, eventInfo, e){
+                    var selected = tasks.indexOf(node.name);
+                    areaChart.filter([node.name], {
+                        onComplete: function(){
+                            console.info("selected", selected);
+                            loadPlanChart(selected+1);
+                        }
+                    })
+                   // console.info("click", arguments);
+                });
+                //load the initial JSON data.
+                loadPlanChart();
             });
         </script>
     </head>
