@@ -8,8 +8,21 @@ Proggis.RouterClass = Backbone.Router.extend
     home: ->
 
     planning: ->
-        console.log "mainChart"
+        Proggis.Chart.init (node) ->
+            selected = Proggis.Chart.data.label.indexOf node.name
+            key = node.name.match( /([0-9]+)/g )[0]
+            console.log "change to", key
+            Proggis.router.navigate "planning/task/#{key}", true
+        Proggis.Chart.loadChart "EffortAllocTime", 3
+
     planningTask: (task) ->
+        console.log "planningTask", task
+        Proggis.Chart.init (node) ->
+            selected = Proggis.Chart.data.label.indexOf node.name
+            key = node.name.match( /([0-9]+)/g )[0]
+            console.log "change to", key
+            Proggis.router.navigate "planning/task/#{key}", true
+        Proggis.Chart.loadChart "EffortAllocTime", 4, task
         console.log "task #{task}"
     monitoring: ->
         console.log "monitoring"

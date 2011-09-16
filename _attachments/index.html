@@ -8,22 +8,6 @@
         <script src="js/chart.js"></script>
         <script src="js/navigation.js"></script>
         <script src="js/router.js"></script>
-        <script>
-            $(document).ready(function(){
-                init(function(node, eventInfo, e){
-                    var selected = tasks.indexOf(node.name);
-                    areaChart.filter([node.name], {
-                        onComplete: function(){
-                            console.info("selected", selected);
-                            loadPlanChart(selected+1);
-                        }
-                    })
-                   // console.info("click", arguments);
-                });
-                //load the initial JSON data.
-                loadPlanChart();
-            });
-        </script>
     </head>
     <body>
         <header>
