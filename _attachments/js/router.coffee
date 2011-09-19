@@ -119,16 +119,16 @@ Proggis.RouterClass = Backbone.Router.extend
             when "byTime"
                 Proggis.Chart.init "BarChart", (node) ->
                     key = node.name.match( /([0-9]+)/g )[0]
-                    console.log "planning change to", key
-                    route = "planning/wbs/#{key}/"
+                    console.log "monitoring change to", key
+                    route = "monitoring/wbs/#{key}/"
                     route += "partner" if chartSelected is "isPartner"
                     Proggis.router.navigate route, true
                 Proggis.Chart.loadChart "EffortTime", 4, wbs
             when "byPartner"
                 Proggis.Chart.init "BarChart", (node) ->
                     key = node.name.match( /([0-9]+)/g )[0]
-                    console.log "planning change to", key
-                    route = "planning/wbs/#{key}/"
+                    console.log "monitoring change to", key
+                    route = "monitoring/wbs/#{key}/"
                     route += "partner" if chartSelected is "isPartner"
                     Proggis.router.navigate route, true
                 Proggis.Chart.loadChart "EffortPartner", 3, wbs
