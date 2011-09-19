@@ -6,6 +6,6 @@
     genKey = (doc) ->
         taskRegExp = new RegExp "http://iks-project.eu/task/(\\d+)\.(\\d+)"
         wbs = taskRegExp.exec doc['task']
-        key = [doc['assignee'], wbs[1], wbs[2]]
+        key = [doc['assignee'], Number(wbs[1]), Number(wbs[2])]
 
     emit genKey(doc), doc
