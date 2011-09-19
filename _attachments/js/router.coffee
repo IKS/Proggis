@@ -36,12 +36,14 @@ Proggis.RouterClass = Backbone.Router.extend
         switch chartSelected
             when "byTime"
                 Proggis.Chart.init "AreaChart", (node) ->
+                    return unless node
                     key = node.name.match( /([0-9]+)/g )[0]
                     console.log "planning change to", key
                     Proggis.router.navigate "planning/wbs/#{key}/", true
                 Proggis.Chart.loadChart "EffortAllocTime", 3
             when "byPartner"
                 Proggis.Chart.init "BarChart", (node) ->
+                    return unless node
                     key = node.name.match( /([0-9]+)/g )[0]
                     console.log "planning change to", key
                     Proggis.router.navigate "planning/wbs/#{key}/partner/", true
@@ -55,6 +57,7 @@ Proggis.RouterClass = Backbone.Router.extend
         switch chartSelected
             when "byTime"
                 Proggis.Chart.init "AreaChart", (node) ->
+                    return unless node
                     key = node.name.match( /([0-9]+)/g )[0]
                     console.log "planning change to", key
                     route = "planning/wbs/#{key}/"
@@ -63,6 +66,7 @@ Proggis.RouterClass = Backbone.Router.extend
                 Proggis.Chart.loadChart "EffortAllocTime", 4, wbs
             when "byPartner"
                 Proggis.Chart.init "BarChart", (node) ->
+                    return unless node
                     key = node.name.match( /([0-9]+)/g )[0]
                     console.log "planning change to", key
                     route = "planning/wbs/#{key}/"
@@ -100,12 +104,14 @@ Proggis.RouterClass = Backbone.Router.extend
         switch chartSelected
             when "byTime"
                 Proggis.Chart.init "BarChart", (node) ->
+                    return unless node
                     key = node.name.match( /([0-9]+)/g )[0]
                     console.log "monitoring change to", key
                     Proggis.router.navigate "monitoring/wbs/#{key}/", true
                 Proggis.Chart.loadChart "EffortTime", 3
             when "byPartner"
                 Proggis.Chart.init "BarChart", (node) ->
+                    return unless node
                     key = node.name.match( /([0-9]+)/g )[0]
                     console.log "monitoring change to", key
                     Proggis.router.navigate "monitoring/wbs/#{key}/partner/", true
@@ -118,6 +124,7 @@ Proggis.RouterClass = Backbone.Router.extend
         switch chartSelected
             when "byTime"
                 Proggis.Chart.init "BarChart", (node) ->
+                    return unless node
                     key = node.name.match( /([0-9]+)/g )[0]
                     console.log "monitoring change to", key
                     route = "monitoring/wbs/#{key}/"
@@ -126,6 +133,7 @@ Proggis.RouterClass = Backbone.Router.extend
                 Proggis.Chart.loadChart "EffortTime", 4, wbs
             when "byPartner"
                 Proggis.Chart.init "BarChart", (node) ->
+                    return unless node
                     key = node.name.match( /([0-9]+)/g )[0]
                     console.log "monitoring change to", key
                     route = "monitoring/wbs/#{key}/"
