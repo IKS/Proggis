@@ -1,11 +1,17 @@
+# Parsing spent efforts into CouchDB. This graph provides the
+# following inports:
+#
+# * CONNECTION.IN: A CouchDB connection
+# * EXECDOC.IN: receiver for execution documents
+# * FILENAME.IN: spreadsheet filename to parse
+
 'ParseSpreadsheet.fbp' -> GRAPH Reader(Graph)
 'SaveIntoCouchDb.fbp' -> GRAPH Saver(Graph)
 
-'IKS_effortcontrolling.xlsx' -> READ.SOURCE Reader()
-'IKS_effortcontrolling.xlsx' -> SOURCE.VALUE Saver()
-
-# CouchDB Settings
-'http://localhost:5984/default' -> CONNECTION.URL Saver()
+# Pass inports to subgraphs
+Filename(Split) OUT -> READ.SOURCE Reader()
+ExecDoc(Split) OUT -> EXECDOC.IN Saver()
+Connection(Split) OUT -> CONNECTION.IN Saver()
 
 # Spent efforts are sheets 4-16
 '3' -> GETSHEET.KEY Reader()
