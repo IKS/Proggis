@@ -136,9 +136,11 @@ Proggis.RouterClass = Backbone.Router.extend
 
 
 jQuery(document).ready ->
+    # Router initialization
     Proggis.router = new Proggis.RouterClass
     Proggis.router.bind "all", Proggis.Navigation.handleRouteChange
     do Backbone.history.start
+    # Initialize the chartselector option
     jQuery('[name=chartSelector]').change ->
         selected = jQuery('[name=chartSelector]').filter(-> jQuery(this).is(":checked")).val()
         console.log "changed to #{selected}"
