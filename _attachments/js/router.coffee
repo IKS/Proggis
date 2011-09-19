@@ -15,6 +15,7 @@ Proggis.RouterClass = Backbone.Router.extend
             console.log "change to", key
             Proggis.router.navigate "planning/wbs/#{key}", true
         Proggis.Chart.loadChart "EffortAllocTime", 3
+#        Proggis.Chart.loadChart "EffortPartner", 2
 
     planningWbs: (wbs) ->
         console.log "planningWbs", wbs
@@ -23,6 +24,7 @@ Proggis.RouterClass = Backbone.Router.extend
             console.log "change to", key
             Proggis.router.navigate "planning/wbs/#{key}", true
         Proggis.Chart.loadChart "EffortAllocTime", 4, wbs
+#        Proggis.Chart.loadChart "EffortPartner", 3, wbs
         console.log "wbs #{wbs}"
     monitoring: ->
         console.log "monitoring"
