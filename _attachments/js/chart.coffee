@@ -61,5 +61,6 @@ Proggis.Chart =
                 @chartObject = new $jit.AreaChart config
             when "BarChart"
                 config.labelOffset = 5
+                config.orientation = 'vertical'
                 @chartObject = new $jit.BarChart config
 
