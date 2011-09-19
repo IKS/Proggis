@@ -1,4 +1,6 @@
 (keys, values, rereduce) ->
+    roundNumber = (rnum, rlength) ->
+        Math.round(parseFloat(rnum) * Math.pow(10, rlength)) / Math.pow(10, rlength)
     data =
         planned: 0.0
         spent: 0.0
@@ -13,8 +15,8 @@
 
     for doc in values
         if doc['@type'] is 'effortallocation'
-            data.planned += parseFloat doc.value
+            data.planned += roundNumber doc.value, 1
         if doc['@type'] is 'effort'
-            data.spent += parseFloat doc.value
-    data.left = data.planned - data.spent
+            data.spent += roundNumber doc.value, 1
+    data.left = roundNumber data.planned - data.spent, 1
     return data
