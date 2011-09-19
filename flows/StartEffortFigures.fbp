@@ -1,3 +1,9 @@
+# This graph creates a new execution document with a spreadsheet
+# attached to it.
+#
+# To import the data, ReadEffortControlling.fbp monitors the changes
+# API.
+
 Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION SaveExec(WebService/CouchDB/WriteDocument)
 
 # CouchDB Settings

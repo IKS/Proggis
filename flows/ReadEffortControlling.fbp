@@ -1,3 +1,12 @@
+# This graph monitors the CouchDB changes API for new execution
+# documents of state data_received containing attachment
+# effortfigures.xlsx. This spreadsheet then gets passed to
+# three importers:
+#
+# * ReadEffortFigures: get budgeted efforts per participant
+# * ReadWorkPlan: get budgeted efforts per quarter
+# * ReadSpentEfforts: get spent efforts per participant per quarter
+
 # CouchDB database setup
 'http://localhost:5984/default' -> URL Conn(WebService/CouchDB/OpenDatabase)
 Conn() CONNECTION -> CONNECTION New(WebService/CouchDB/GetChanges)
@@ -23,6 +32,16 @@ SplitDoc() OUT -> DOCUMENT ReadAtt() OUT -> IN WriteFile() FILENAME -> IN SplitF
 'ReadEffortFigures.fbp' -> GRAPH EffortFigures(Graph)
 Conn() CONNECTION -> CONNECTION.IN EffortFigures()
 SplitDoc() OUT -> EXECDOC.IN EffortFigures()
-
-SplitFileName() OUT -> IN Display(Output)
 SplitFileName() OUT -> FILENAME.IN EffortFigures()
+
+# Load workplan into database
+'ReadWorkplan.fbp' -> GRAPH Workplan(Graph)
+Conn() CONNECTION -> CONNECTION.IN Workplan()
+SplitDoc() OUT -> EXECDOC.IN Workplan()
+SplitFileName() OUT -> FILENAME.IN Workplan()
+
+# Load spent efforts into database
+'ReadSpentEfforts.fbp' -> GRAPH SpentEfforts(Graph)
+Conn() CONNECTION -> CONNECTION.IN SpentEfforts()
+SplitDoc() OUT -> EXECDOC.IN SpentEfforts()
+SplitFileName() OUT -> FILENAME.IN SpentEfforts()
