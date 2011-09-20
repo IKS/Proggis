@@ -169,8 +169,8 @@ States are:
 
 * You need a running CouchDB instance and CoffeeApp
 * Install the Proggis views with `coffeeapp push`
-* Keep a watcher for data imports running with `$ noflo ReadEffortControlling.fbp`
-* If you want to import data manually, run `$ noflo StartEffortFigures.fbp`
+* Keep a watcher for data imports running with `$ forever start -o listeners.log listeners.js` in `flows` directory
+* If you want to import data manually, run `$ noflo StartEffortFigures.fbp` or `$ noflo StartDeliverables.fbp`
 * The user interface is by default in <http://localhost:5984/default/_design/Proggis/index.html>
 
 ## Contributing
