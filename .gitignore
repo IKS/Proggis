@@ -1,6 +1,7 @@
 *.xls*
 *.doc*
 *.jar
+*.log
 _components
 .releases
 .node_shell
