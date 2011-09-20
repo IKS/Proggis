@@ -10,8 +10,8 @@
         send "<tr about='#{row.value._id}'>"
         send "<td>#{row.value.workflow}</td>"
         send "<td>#{row.value.state}</td>"
-        send "<td>#{row.value.start}</td>"
-        send "<td>#{row.value.end}</td>"
+        send "<td class='date'>#{row.value.start}</td>"
+        send "<td class='date'>#{row.value.end}</td>"
         send "</tr>"
     send "</tbody></table>"
 
