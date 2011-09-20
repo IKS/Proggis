@@ -9,6 +9,7 @@ couchapp_load [
     "/_utils/script/jquery.couch.js",
     "vendor/couchapp/jquery.form.js",
     "vendor/couchapp/jquery-ui.js",
+    "vendor/couchapp/jquery.prettyDate.js",
     "vendor/couchapp/jquery.couch.app.js",
     "vendor/couchapp/jquery.couch.app.util.js",
     "vendor/couchapp/jquery.mustache.js",

@@ -7,6 +7,9 @@ Proggis.Info =
                 window.getReq = jQuery.get "_list/processTable/execDocs", (tableHtml) ->
                     jQuery("article .data")
                     .html(tableHtml)
+                    jQuery('.data table td.date').each ->
+                        jQuery( @ ).attr 'title', jQuery( @ ).text()
+                        jQuery( @ ).prettyDate()
                     jQuery("article .data tr").click ->
                         id = jQuery(@).attr "about"
                         console.log "user clicked", id
