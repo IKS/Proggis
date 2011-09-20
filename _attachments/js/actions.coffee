@@ -1,8 +1,7 @@
 jQuery(document).ready ->
-    Proggis.db = $.couch.db "test"
+    Proggis.db = $.couch.db "default"
     jQuery('#importSpreadsheetButton').click ->
         jQuery.get "dialogs/uploadSpreadsheet.html", (importForm) ->
-            console.info importForm
             dialogEl = jQuery(document.createElement "div")
             dialogEl.addClass "uploadSpreadsheet"
             dialogEl.attr "title", "Upload Spreadsheet"
@@ -24,10 +23,12 @@ jQuery(document).ready ->
                     url: Proggis.db.uri + $.couch.encodeDocId(doc._id)
                     success: (resp) ->
                         # form.find("#progress").css("visibility", "hidden")
-                        jQuery(dialogEl).trigger "close"
+                        jQuery(dialogEl).dialog "close"
                     error: (err) ->
                         console.error err
                     beforeSend: ->
+                        # if ever, here we could maybe change the file name being uploaded..
+                        this.data
                         console.log "beforeSend arguments:", arguments, "this:", @
 
             $(form).submit (e) ->
