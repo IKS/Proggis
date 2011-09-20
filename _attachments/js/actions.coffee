@@ -12,6 +12,7 @@ jQuery(document).ready ->
             form = jQuery "#upload", dialogEl
 
             jQuery('.uploadSpreadsheet').dialog
+                width: 400
                 close: ->
                     console.log "dialog close"
                     console.log "before", jQuery('.uploadSpreadsheet').data "dialog"
