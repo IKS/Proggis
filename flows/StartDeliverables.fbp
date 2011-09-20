@@ -1,0 +1,30 @@
+# This graph creates a new execution document with a document
+# attached to it.
+#
+# To import the data, ReadDeliverables.fbp monitors the changes
+# API.
+
+Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION SaveExec(WebService/CouchDB/WriteDocument)
+
+# CouchDB Settings
+'http://localhost:5984/default' -> URL Connection()
+
+# Prepare spreadsheet as attachment
+'deliverables.docx' -> PROPERTY SetExecAtts(SetPropertyValue)
+' ' -> START PrepareExecAtts(CreateObject) OUT -> IN SetExecAtts() OUT -> VALUE SetAtts(SetPropertyValue)
+'IKS_deliverables.docx' -> SOURCE ReadFile(ReadFileRaw) OUT -> IN Encode(Base64Encode) OUT -> VALUE SetAttContents(SetPropertyValue)
+
+'data' -> PROPERTY SetAttContents(SetPropertyValue)
+'content_type=application/vnd.ms-word' -> PROPERTY SetAttType(SetProperty)
+' ' -> START PrepareAttContents(CreateObject) OUT -> IN SetAttContents() OUT -> IN SetAttType() OUT -> VALUE SetExecAtts()
+
+# Create a Workflow Execution document
+'@type=execution' -> PROPERTY SetExecProps(SetProperty)
+'state=data_received' -> PROPERTY SetExecProps(SetProperty)
+'workflow=Deliverables' -> PROPERTY SetExecProps(SetProperty)
+'start' -> PROPERTY SetExecDate(SetPropertyValue)
+'now' -> IN StartDate(CreateDate) OUT -> VALUE SetExecDate()
+'source' -> PROPERTY Source(SetPropertyValue)
+'_attachments' -> PROPERTY SetAtts()
+' ' -> START PrepareExec(CreateObject)
+PrepareExec() OUT -> IN SetExecProps() OUT -> IN SetExecDate() OUT -> IN SetAtts() OUT -> IN SaveExec()
