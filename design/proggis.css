@@ -92,6 +92,30 @@ section article .info {
     width: 65%;
 }
 
+section article .data table {
+    margin-top: 1em;
+    border-collapse: collapse;
+    background-color: #555753;
+}
+
+section article .data table th {
+    font-weight: bold;
+    text-align: left;
+    padding: 4px;
+}
+
+section article .data table td {
+    padding: 4px;
+}
+
+section article .data table thead tr {
+    background-color: #2e3436; 
+}
+
+section article .data table tr:nth-child(even) {
+    background-color: #2e3436; 
+}
+
 footer {
     width: 100%;
     margin-top: 1em;
