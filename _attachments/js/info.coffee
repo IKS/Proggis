@@ -10,6 +10,13 @@ Proggis.Info =
                     jQuery("article .data tr").click ->
                         id = jQuery(@).attr "about"
                         console.log "user clicked", id
+                        Proggis.Info.showDocsByExecId id
                 , "text"
             else
                 jQuery("article .data").html ""
+    showDocsByExecId: (id) ->
+        @_getDocumentsByExecution id, (docs) ->
+            console.log docs
+    _getDocumentsByExecution: (execId, cb) ->
+        jQuery.getJSON "_view/DocumentsByExecution?startkey=[\"#{execId}\"]&endkey=[\"#{execId}a\"]", (res) ->
+            cb res
