@@ -147,6 +147,7 @@ jQuery(document).ready ->
     # Router initialization
     Proggis.router = new Proggis.RouterClass
     Proggis.router.bind "all", Proggis.Navigation.handleRouteChange
+    Proggis.router.bind "all", Proggis.Info.show
     do Backbone.history.start
     # Initialize the chartselector option
     jQuery('[name=chartSelector]').change ->
