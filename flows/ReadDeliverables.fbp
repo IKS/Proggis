@@ -1,0 +1,63 @@
+# CouchDB database setup
+'http://localhost:5984/default' -> URL Conn(WebService/CouchDB/OpenDatabase)
+Conn() CONNECTION -> CONNECTION New(WebService/CouchDB/GetChanges)
+Conn() CONNECTION -> CONNECTION ReadAtt(WebService/CouchDB/ReadDocumentAttachment)
+Conn() CONNECTION -> CONNECTION ReadDoc(WebService/CouchDB/ReadDocument)
+
+# Watch for changes
+'filter=Proggis/byType' -> OPTION New()
+'type=execution' -> OPTION New()
+'state=data_received' -> OPTION New()
+'workflow=Deliverables' -> OPTION New()
+'id' -> KEY GetId(GetObjectKey)
+
+# Get the execution document when it appears
+New() OUT -> IN GetId() OUT -> IN ReadDoc() OUT -> IN SplitDoc(Split)
+
+# Read attachment from execution document and write to local file
+'0' -> ATTACHMENT ReadAtt()
+'tika-app-0.9.jar' -> TIKA Read(ReadDocument)
+'deliverables.docx' -> FILENAME WriteFile(WriteFileRaw)
+SplitDoc() OUT -> DOCUMENT ReadAtt() OUT -> IN WriteFile() FILENAME -> SOURCE Read()
+
+'SaveIntoCouchDb.fbp' -> GRAPH Saver(Graph)
+SplitDoc() OUT -> EXECDOC.IN Saver()
+Conn() CONNECTION -> CONNECTION.IN Saver()
+
+# If reading fails, just display the error
+Read() ERROR -> IN Display(Output)
+
+# Parse the file to JSON
+Read() OUT -> IN Parse(ParseXml) 
+
+# We're only interested in TABLEs inside the BODY
+'body' -> KEY GetBody(GetObjectKey)
+'table' -> KEY GetTable(GetObjectKey)
+'tbody' -> KEY GetTBody(GetObjectKey)
+'tr' -> KEY GetTR(GetObjectKey)
+'td' -> KEY GetTD(GetObjectKey)
+'p' -> KEY GetP(GetObjectKey)
+'#' -> KEY GetContent(GetObjectKey)
+'b' -> KEY GetContent(GetObjectKey)
+'#' -> KEY GetHash(GetObjectKey)
+'value' -> KEY GetValue(GetObjectKey)
+
+# Map columns to properties
+'0=_id' -> MAP MapDeliverables(MapProperty)
+'1=name' -> MAP MapDeliverables(MapProperty)
+'2=assignee' -> MAP MapDeliverables()
+'3=milestone' -> MAP MapDeliverables()
+'4=dissem' -> MAP MapDeliverables()
+'5=nature' -> MAP MapDeliverables()
+'6=effort' -> MAP MapDeliverables()
+'7=description' -> MAP MapDeliverables()
+'8=rdivm' -> MAP MapDeliverables()
+'b=#' -> MAP MapGroups(MapGroup)
+
+# Map WBS
+'_id=(\d+\.\d+\.\d*)=http://iks-project.eu/deliverable/$1' -> REGEXP MapDeliverableUri(MapPropertyValue)
+'@type=deliverable' -> PROPERTY SetDeliverableProps(SetProperty)
+
+# Read Tables and pass them forward
+Parse() OUT -> IN GetBody() OUT -> IN GetTable() OUT -> IN GetTBody() OUT -> IN GetTR()
+GetTR() OUT -> IN SplitRows(SplitArray) OUT -> IN GetTD() OUT -> IN GroupByRow(GroupByPacket) OUT -> IN SplitColumns(SplitArray) OUT -> IN GroupByColumn(GroupByPacket) OUT -> IN GetP() OUT -> IN GetContent() OUT -> IN MapGroups() OUT -> IN CollectDeliverables(CollectGroups) OUT -> IN SplitDeliverables(SplitArray) OUT -> IN MapDeliverables() OUT -> IN FlattenDeliverables(PropertiesToObjects) OUT -> IN GetHash() OUT -> IN FlattenDeliverablesAgain(PropertiesToObjects) OUT -> IN GetValue() OUT -> IN MapDeliverableUri() OUT -> IN SetDeliverableProps() OUT -> SAVE.IN Saver()
