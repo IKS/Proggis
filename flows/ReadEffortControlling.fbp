@@ -17,14 +17,14 @@ Conn() CONNECTION -> CONNECTION ReadDoc(WebService/CouchDB/ReadDocument)
 'filter=Proggis/byType' -> OPTION New()
 'type=execution' -> OPTION New()
 'state=data_received' -> OPTION New()
-'attachment=effortfigures.xlsx' -> OPTION New()
+'workflow=EffortControlling' -> OPTION New()
 'id' -> KEY GetId(GetObjectKey)
 
 # Get the execution document when it appears
 New() OUT -> IN GetId() OUT -> IN ReadDoc() OUT -> IN SplitDoc(Split)
 
 # Read attachment from execution document and write to local file
-'effortfigures.xlsx' -> ATTACHMENT ReadAtt()
+'0' -> ATTACHMENT ReadAtt()
 'effortfigures.xlsx' -> FILENAME WriteFile(WriteFileRaw)
 SplitDoc() OUT -> DOCUMENT ReadAtt() OUT -> IN WriteFile() FILENAME -> IN SplitFileName(Split)
 

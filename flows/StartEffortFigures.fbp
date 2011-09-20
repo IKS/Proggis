@@ -21,6 +21,7 @@ Connection(WebService/CouchDB/OpenDatabase) CONNECTION -> CONNECTION SaveExec(We
 # Create a Workflow Execution document
 '@type=execution' -> PROPERTY SetExecProps(SetProperty)
 'state=data_received' -> PROPERTY SetExecProps(SetProperty)
+'workflow=EffortControlling' -> PROPERTY SetExecProps(SetProperty)
 'start' -> PROPERTY SetExecDate(SetPropertyValue)
 'now' -> IN StartDate(CreateDate) OUT -> VALUE SetExecDate()
 'source' -> PROPERTY Source(SetPropertyValue)

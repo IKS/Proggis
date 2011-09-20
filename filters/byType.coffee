@@ -5,8 +5,7 @@
     if req.query.state
         return false unless doc['state'] is req.query.state
 
-    if req.query.attachment
-        return false unless doc['_attachments']
-        return false unless doc['_attachments'][req.query.attachment]
+    if req.query.workflow
+        return false unless doc['workflow'] is req.query.workflow
 
     return true

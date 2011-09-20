@@ -1,4 +1,5 @@
 *.xls*
+*.doc*
 *.jar
 _components
 .releases
