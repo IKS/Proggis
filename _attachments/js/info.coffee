@@ -15,11 +15,12 @@ Proggis.Info =
                         console.log "user clicked", id
                         Proggis.router.navigate "execution/#{id}/", true
                 , "text"
+
             else
                 jQuery("article .data").html ""
     showDocsByExecId: (execId) ->
-        jQuery.getJSON "_view/DocumentsByExecution?startkey=[\"#{execId}\"]&endkey=[\"#{execId}a\"]", (docs) ->
+        req = jQuery.get "_list/renderTables/DocumentsByExecution?startkey=[\"#{execId}\"]&endkey=[\"#{execId}a\"]", (tablesHtml) ->
             jQuery('.graph').hide()
-            jQuery("article .data").html JSON.stringify docs
-            console.log docs
+            jQuery("article .data").html tablesHtml
+        , "text"
 
