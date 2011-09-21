@@ -10,6 +10,7 @@
             "effortallocation"
             "effort"
             "execution"
+            "deliverable"
         ]
 
         # Table definitions
@@ -87,6 +88,34 @@
             ,
                 key: "value"
                 label: "Amount (PM)"
+            ]
+        deliverable:
+            label: "Deliverables"
+            about: "_id"
+            fields: [
+                key: "name"
+                label: "Titel"
+            ,
+                key: "_id"
+                label: "Uri"
+            ,
+                key: "description"
+                label: "Description"
+            ,
+                key: "assignee"
+                label: "Assignee"
+            ,
+                key: "milestone"
+                label: "Due in Month"
+            ,
+                key: "dissem"
+                label: "Dissemination"
+            ,
+                key: "nature"
+                label: "Nature"
+            ,
+                key: "rdivm"
+                label: "R/D/I/V/M"
             ]
 
     # Put the instances to their types
