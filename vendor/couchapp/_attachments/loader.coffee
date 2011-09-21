@@ -16,5 +16,7 @@ couchapp_load [
     "vendor/couchapp/jquery.evently.js",
     "vendor/couchapp/underscore.js",
     "vendor/couchapp/backbone.js",
+    "vendor/couchapp/hallo/hallo.js",
+    "vendor/couchapp/hallo/plugins/format.js",
     "js/jit.js"
 ]

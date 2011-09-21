@@ -10,4 +10,8 @@ jQuery(document).ready ->
         $( @ ).show()
     .ajaxStop ->
         $( @ ).hide()
+    Proggis.description = jQuery ".info.description"
+    Proggis.description.hallo
+        plugins:
+            halloformat: {}
 
