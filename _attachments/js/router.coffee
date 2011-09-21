@@ -1,4 +1,4 @@
-window.Proggis = {} unless Proggis = window.Proggis
+Proggis = window.Proggis ?= {}
 Proggis.RouterClass = Backbone.Router.extend
     routes:
         "": "home"
@@ -12,21 +12,28 @@ Proggis.RouterClass = Backbone.Router.extend
         "monitoring/wbs/:wbs/": "monitoringWbs"
         "monitoring/wbs/:wbs/partner/": "monitoringWbsPartner"
 
+        "execution/:execId/": "execution"
+
     home: ->
+        jQuery('.graph').hide()
         Proggis.Chart.init "AreaChart", (node) ->
         Proggis.Chart.legendClear $(".legend")
 
     # ######### Planning Routes ################################################
     planning: ->
+        jQuery('.graph').show()
         @_setPartnerOption "Time"
         do @_planning
     planningPartner: ->
+        jQuery('.graph').show()
         @_setPartnerOption "Partner"
         do @_planning
     planningWbs: (wbs) ->
+        jQuery('.graph').show()
         @_setPartnerOption "Time"
         @_planningWbs wbs
     planningWbsPartner: (wbs) ->
+        jQuery('.graph').show()
         @_setPartnerOption "Partner"
         @_planningWbs wbs
 
@@ -86,15 +93,19 @@ Proggis.RouterClass = Backbone.Router.extend
 
     # ########## Monitoring Routes #############################################
     monitoring: ->
+        jQuery('.graph').show()
         @_setPartnerOption "Time"
         do @_monitoring
     monitoringPartner: ->
+        jQuery('.graph').show()
         @_setPartnerOption "Partner"
         do @_monitoring
     monitoringWbs: (wbs) ->
+        jQuery('.graph').show()
         @_setPartnerOption "Time"
         @_monitoringWbs wbs
     monitoringWbsPartner: (wbs) ->
+        jQuery('.graph').show()
         @_setPartnerOption "Partner"
         @_monitoringWbs wbs
 
@@ -142,6 +153,9 @@ Proggis.RouterClass = Backbone.Router.extend
                 Proggis.Chart.loadChart "EffortPartner", 3, wbs
         console.log "wbs #{wbs}"
 
+    # ########## Execution Document#############################################
+    execution: (execId) ->
+        Proggis.Info.showDocsByExecId execId
 
 jQuery(document).ready ->
     # Router initialization

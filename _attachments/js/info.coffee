@@ -1,10 +1,10 @@
-window.Proggis = {} unless Proggis = window.Proggis
+Proggis = window.Proggis ?= {}
 Proggis.Info =
     show: (route) ->
         console.log "Info routes to", route
         switch route
             when "route:home"
-                window.getReq = jQuery.get "_list/processTable/execDocs", (tableHtml) ->
+                jQuery.get "_list/processTable/execDocs", (tableHtml) ->
                     jQuery("article .data")
                     .html(tableHtml)
                     jQuery('.data table td.date').each ->
@@ -13,13 +13,13 @@ Proggis.Info =
                     jQuery("article .data tr").click ->
                         id = jQuery(@).attr "about"
                         console.log "user clicked", id
-                        Proggis.Info.showDocsByExecId id
+                        Proggis.router.navigate "execution/#{id}/", true
                 , "text"
             else
                 jQuery("article .data").html ""
-    showDocsByExecId: (id) ->
-        @_getDocumentsByExecution id, (docs) ->
+    showDocsByExecId: (execId) ->
+        jQuery.getJSON "_view/DocumentsByExecution?startkey=[\"#{execId}\"]&endkey=[\"#{execId}a\"]", (docs) ->
+            jQuery('.graph').hide()
+            jQuery("article .data").html JSON.stringify docs
             console.log docs
-    _getDocumentsByExecution: (execId, cb) ->
-        jQuery.getJSON "_view/DocumentsByExecution?startkey=[\"#{execId}\"]&endkey=[\"#{execId}a\"]", (res) ->
-            cb res
+

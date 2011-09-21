@@ -1,4 +1,4 @@
-window.Proggis = {} unless Proggis = window.Proggis
+Proggis = window.Proggis ?= {}
 Proggis.Navigation =
     getIds: (callback) ->
         ids = []

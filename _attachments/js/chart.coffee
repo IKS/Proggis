@@ -1,4 +1,4 @@
-window.Proggis = {} unless Proggis = window.Proggis
+Proggis = window.Proggis ?= {}
 Proggis.Chart =
     chartObject: null
     data: null
