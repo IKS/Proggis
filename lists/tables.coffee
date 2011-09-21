@@ -1,14 +1,21 @@
 (head, req) ->
+# Rendering a view as tables for each document @type
     types =
-        tables: [ 
+        # List and order of the defined tables. An element here has to show on 
+        # a table definition
+        tables: [
             "organization"
             "task"
             "timeslot"
             "effortallocation"
+            "effort"
             "execution"
         ]
+
+        # Table definitions
         effortallocation:
             label: "Effort allocation documents"
+            # The about tag is on each <tr> tag
             about: "_id"
             fields: [
                 key: "task"
@@ -21,7 +28,7 @@
                 label: "Timeslot"
             ,
                 key: "value"
-                label: "Effort allocated"
+                label: "Effort allocated (PM)"
             ]
         organization:
             label: "Organizations"
@@ -67,6 +74,19 @@
                 key: "end"
                 label: "End"
                 styleClass: "date"
+            ]
+        effort:
+            label: "Spent efforts"
+            about: "_id"
+            fields: [
+                key: "timeslot"
+                label: "Time slot"
+            ,
+                key: "assignee"
+                label: "Assignee"
+            ,
+                key: "value"
+                label: "Amount (PM)"
             ]
 
     # Put the instances to their types
