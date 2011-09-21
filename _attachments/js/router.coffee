@@ -15,24 +15,29 @@ Proggis.RouterClass = Backbone.Router.extend
         "execution/:execId/": "execution"
 
     home: ->
+        Proggis.viewName.html "Dashboard"
         Proggis.graph.hide()
         Proggis.Chart.init "AreaChart", (node) ->
         Proggis.Chart.legendClear $(".legend")
 
     # ######### Planning Routes ################################################
     planning: ->
+        Proggis.viewName.html "Project plan over time"
         Proggis.graph.show()
         @_setPartnerOption "Time"
         do @_planning
     planningPartner: ->
+        Proggis.viewName.html "Project plan over partners"
         Proggis.graph.show()
         @_setPartnerOption "Partner"
         do @_planning
     planningWbs: (wbs) ->
+        Proggis.viewName.html "Project plan over time for WP #{wbs}"
         Proggis.graph.show()
         @_setPartnerOption "Time"
         @_planningWbs wbs
     planningWbsPartner: (wbs) ->
+        Proggis.viewName.html "Project plan over partners for WP #{wbs}"
         Proggis.graph.show()
         @_setPartnerOption "Partner"
         @_planningWbs wbs
@@ -93,18 +98,22 @@ Proggis.RouterClass = Backbone.Router.extend
 
     # ########## Monitoring Routes #############################################
     monitoring: ->
+        Proggis.viewName.html "Project monitoring over time"
         Proggis.graph.show()
         @_setPartnerOption "Time"
         do @_monitoring
     monitoringPartner: ->
+        Proggis.viewName.html "Project monitoring over partners"
         Proggis.graph.show()
         @_setPartnerOption "Partner"
         do @_monitoring
     monitoringWbs: (wbs) ->
+        Proggis.viewName.html "Project monitoring over time for WP #{wbs}"
         Proggis.graph.show()
         @_setPartnerOption "Time"
         @_monitoringWbs wbs
     monitoringWbsPartner: (wbs) ->
+        Proggis.viewName.html "Project monitoring over partners for WP #{wbs}"
         Proggis.graph.show()
         @_setPartnerOption "Partner"
         @_monitoringWbs wbs

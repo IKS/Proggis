@@ -4,7 +4,7 @@ Proggis.Info =
         console.log "Info routes to", route
         switch route
             when "route:home"
-                jQuery.get "_list/processTable/execDocs", (tableHtml) ->
+                jQuery.get "_list/tables/execDocs", (tableHtml) ->
                     jQuery("article .data")
                     .html(tableHtml)
                     jQuery('.data table td.date').each ->
@@ -19,7 +19,7 @@ Proggis.Info =
             else
                 jQuery("article .data").html ""
     showDocsByExecId: (execId) ->
-        req = jQuery.get "_list/renderTables/DocumentsByExecution?startkey=[\"#{execId}\"]&endkey=[\"#{execId}a\"]", (tablesHtml) ->
+        req = jQuery.get "_list/tables/DocumentsByExecution?startkey=[\"#{execId}\"]&endkey=[\"#{execId}a\"]", (tablesHtml) ->
             jQuery('.graph').hide()
             if tablesHtml.length
                 jQuery("article .data").html tablesHtml

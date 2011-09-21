@@ -5,6 +5,7 @@
             "task"
             "timeslot"
             "effortallocation"
+            "execution"
         ]
         effortallocation:
             label: "Effort allocation documents"
@@ -49,6 +50,24 @@
                 key: "name"
                 label: "Name"
             ]
+        execution:
+            label: "Execution documents"
+            about: "_id"
+            fields: [
+                key: "workflow"
+                label: "Workflow"
+            ,
+                key: "state"
+                label: "State"
+            ,
+                key: "start"
+                label: "Start"
+                styleClass: "date"
+            ,
+                key: "end"
+                label: "End"
+                styleClass: "date"
+            ]
 
     # Put the instances to their types
     while row = getRow()
@@ -73,7 +92,9 @@
         for instance in typeObj.instances
             send "<tr about='#{instance[typeObj.about]}'>"
             for field in typeObj.fields
-                send "<td>#{instance[field.key] or ''}</td>"
+                styleClass = ""
+                styleClass = "class='#{field.styleClass}'" if field.styleClass
+                send "<td #{styleClass}>#{instance[field.key] or ''}</td>"
             send "</tr>"
             send "\n<!-- #{JSON.stringify instance}-->"
         send "</tbody></table>"
