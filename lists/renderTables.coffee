@@ -64,7 +64,7 @@
     # Draw tables, one for each type
     for tableName in types.tables
         typeObj = types[tableName]
-        return unless typeObj.instances.length
+        continue unless typeObj.instances
         send "<h1>#{typeObj.label}</h1>"
         send "<table><thead><tr>"
         for field in typeObj.fields
