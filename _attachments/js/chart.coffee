@@ -40,7 +40,7 @@ Proggis.Chart =
                 top: 5
                 left: 5
                 right: 5
-                bottom: 5
+                bottom: 20
 
             showAggregates: true
             showLabels: true
