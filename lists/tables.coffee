@@ -105,7 +105,7 @@
         typeObj = types[tableName]
         continue unless typeObj.instances
         send "<h1>#{typeObj.label}</h1>"
-        send "<table><thead><tr>"
+        send "<table class='#{tableName}'><thead><tr>"
         for field in typeObj.fields
             send "<th>#{field.label}</th>"
         send "</tr></thead><tbody>"
@@ -113,8 +113,8 @@
             send "<tr about='#{instance[typeObj.about]}'>"
             for field in typeObj.fields
                 styleClass = ""
-                styleClass = "class='#{field.styleClass}'" if field.styleClass
-                send "<td #{styleClass}>#{instance[field.key] or ''}</td>"
+                styleClass = "#{field.styleClass}" if field.styleClass
+                send "<td class='#{field.key} #{styleClass}'>#{instance[field.key] or ''}</td>"
             send "</tr>"
             send "\n<!-- #{JSON.stringify instance}-->"
         send "</tbody></table>"
