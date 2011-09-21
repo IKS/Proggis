@@ -21,6 +21,9 @@ Proggis.Info =
     showDocsByExecId: (execId) ->
         req = jQuery.get "_list/renderTables/DocumentsByExecution?startkey=[\"#{execId}\"]&endkey=[\"#{execId}a\"]", (tablesHtml) ->
             jQuery('.graph').hide()
-            jQuery("article .data").html tablesHtml
+            if tablesHtml.length
+                jQuery("article .data").html tablesHtml
+            else
+                jQuery("article .data").html "<h1>No documents in the list</h1>"
         , "text"
 
