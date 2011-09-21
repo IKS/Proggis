@@ -19,6 +19,6 @@ jQuery(document).ready ->
     Proggis.description.hallo
         plugins:
             halloformat: {}
-        change: ->
+        modified: ->
             console.log "description edited", @
 
