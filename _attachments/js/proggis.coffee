@@ -1,6 +1,14 @@
 Proggis = window.Proggis ?= {}
 Proggis.db = $.couch.db "default"
 
+Proggis.showEditableDescription = (route) ->
+    switch route
+        when "route:home"
+            console.log "no editable description for", route
+        else
+            Proggis.description.attr "route", route
+            Proggis.description.html "The default editable text..."
+
 jQuery(document).ready ->
 # Defining parts of the view.
     Proggis.viewName = jQuery "#viewName"

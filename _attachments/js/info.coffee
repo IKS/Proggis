@@ -2,6 +2,7 @@ Proggis = window.Proggis ?= {}
 Proggis.Info =
     show: (route) ->
         console.log "Info routes to", route
+        Proggis.description.html ""
         switch route
             when "route:home"
                 jQuery.get "_list/tables/execDocs", (tableHtml) ->
