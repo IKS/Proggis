@@ -5,7 +5,7 @@ jQuery(document).ready ->
         jQuery.get "dialogs/uploadSpreadsheet.html", (importForm) ->
             dialogEl = jQuery(document.createElement "div")
             dialogEl.addClass "uploadSpreadsheet"
-            dialogEl.attr "title", "Upload Spreadsheet"
+            dialogEl.attr "title", "Upload data"
             jQuery('body').append dialogEl
             jQuery(dialogEl).html importForm
             form = jQuery "#upload", dialogEl
