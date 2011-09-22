@@ -11,7 +11,7 @@ jQuery(document).ready ->
             form = jQuery "#upload", dialogEl
 
             jQuery('.uploadSpreadsheet').dialog
-                width: 400
+                width: 550
                 close: ->
                     jQuery('.uploadSpreadsheet').dialog "destroy"
                     jQuery('.uploadSpreadsheet').remove()
