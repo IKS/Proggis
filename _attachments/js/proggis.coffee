@@ -22,3 +22,10 @@ jQuery(document).ready ->
         modified: ->
             console.log "description edited", @
 
+    Proggis.scrollTo = (selector) ->
+        obj = jQuery(selector)[0]
+        curtop = obj.offsetTop
+        while obj = obj.offsetParent
+            curtop += obj.offsetTop
+        window.scrollTo 0, curtop
+

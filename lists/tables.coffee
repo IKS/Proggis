@@ -129,11 +129,21 @@
         types[type].instances ?= []
         types[type].instances.push entity
 
+    filledTables = []
+    for tableName in types.tables
+        typeObj = types[tableName]
+        filledTables.push tableName if typeObj.instances
+
+    if filledTables.length > 1
+        for tableName in filledTables
+            typeObj = types[tableName]
+            send "<p><a onclick='javascript:Proggis.scrollTo(\"h1.#{tableName}\")'>Table of #{typeObj.label}</a></p>\n"
+
     # Draw tables, one for each type
     for tableName in types.tables
         typeObj = types[tableName]
         continue unless typeObj.instances
-        send "<h1>#{typeObj.label}</h1>"
+        send "<h1 class='#{tableName}'>#{typeObj.label}</h1>"
         send "<table class='#{tableName}'><thead><tr>"
         for field in typeObj.fields
             send "<th>#{field.label}</th>"
