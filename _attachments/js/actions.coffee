@@ -1,5 +1,4 @@
 jQuery(document).ready ->
-    Proggis.db = $.couch.db "default"
     # Button fires showing a dialog
     jQuery('#importSpreadsheetButton').click ->
         # Getting the dialog html

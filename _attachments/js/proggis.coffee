@@ -1,4 +1,5 @@
 Proggis = window.Proggis ?= {}
+Proggis.db = $.couch.db "default"
 
 jQuery(document).ready ->
 # Defining parts of the view.
