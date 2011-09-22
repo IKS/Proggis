@@ -1,10 +1,27 @@
 <div class="msg"></div>
 <form id="upload" method="POST" submit="">
-    Select the workflow to start: <select id="workflowSelector">
-        <option value="EffortControlling">Effort controlling sheet</option>
-        <option value="Deliverables">Deliverables document</option>
-    </select>
-    <input name="_attachments" filename="asdf.asdf" type="file" />
+    <table>
+        <tr>
+            <td>
+                Select the workflow to start: 
+            </td>
+            <td>
+                <select id="workflowSelector">
+                    <option value="EffortControlling">Effort controlling sheet</option>
+                    <option value="Deliverables">Deliverables document</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Attachments: 
+            </td>
+            <td>
+                <input name="_attachments" type="file" />
+            </td>
+        </tr>
+    </table>
     <input type="hidden" name="_rev" value="">
+    <br/><br/>
     <input type="submit" />
 </form>

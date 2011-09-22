@@ -5,6 +5,9 @@ Proggis.showEditableDescription = (route) ->
     switch route
         when "route:execution"
             console.log "no editable description for", route
+        when "route:home"
+            Proggis.description.attr "route", route
+            Proggis.description.html "Interactive Knowledge Stack (IKS) is an open source community, whose projects are focused on building an open and flexible technology platform for semantically enhanced Content Management Systems (CMS)."
         else
             Proggis.description.attr "route", route
             Proggis.description.html "The default editable text..."

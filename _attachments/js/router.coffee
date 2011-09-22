@@ -15,7 +15,7 @@ Proggis.RouterClass = Backbone.Router.extend
         "execution/:execId/": "execution"
 
     home: ->
-        Proggis.viewName.html "Dashboard"
+        Proggis.viewName.html "IKS Project controlling Dashboard"
         Proggis.graph.hide()
         Proggis.Chart.init "AreaChart", (node) ->
         Proggis.Chart.legendClear $(".legend")

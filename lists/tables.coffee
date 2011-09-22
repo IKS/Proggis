@@ -94,10 +94,7 @@
             about: "_id"
             fields: [
                 key: "name"
-                label: "Titel"
-            ,
-                key: "_id"
-                label: "Uri"
+                label: "Title"
             ,
                 key: "description"
                 label: "Description"
