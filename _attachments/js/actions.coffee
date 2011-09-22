@@ -13,10 +13,7 @@ jQuery(document).ready ->
             jQuery('.uploadSpreadsheet').dialog
                 width: 400
                 close: ->
-                    console.log "dialog close"
-                    console.log "before", jQuery('.uploadSpreadsheet').data "dialog"
                     jQuery('.uploadSpreadsheet').dialog "destroy"
-                    console.log "after", jQuery('.uploadSpreadsheet').data "dialog"
                     jQuery('.uploadSpreadsheet').remove()
 
             submitCallback = (form) ->
@@ -32,7 +29,6 @@ jQuery(document).ready ->
                         form.ajaxSubmit
                             url: Proggis.db.uri + $.couch.encodeDocId(doc._id)
                             success: (resp) ->
-                                console.log resp
                                 # Reopen after file submit
                                 Proggis.db.openDoc doc._id, 
                                     success: (newDoc) ->
@@ -40,7 +36,7 @@ jQuery(document).ready ->
                                         # Save and fire noflo
                                         Proggis.db.saveDoc newDoc, 
                                             success: (res) ->
-                                                console.log "Workflow set with result", res
+                                                console.log "Execution document saved:", newDoc
                                                 jQuery(dialogEl).dialog "close"
                     error: (err) ->
                         console.error err
@@ -48,7 +44,7 @@ jQuery(document).ready ->
                     beforeSend: ->
                         # if ever, here we could maybe change the file name being uploaded..
                         this.data
-                        console.log "beforeSend arguments:", arguments, "this:", @
+                        # console.log "beforeSend arguments:", arguments, "this:", @
 
             # Defining the form submit event handler
             $(form).submit (e) ->

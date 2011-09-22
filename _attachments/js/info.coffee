@@ -1,7 +1,6 @@
 Proggis = window.Proggis ?= {}
 Proggis.Info =
     show: (route) ->
-        console.log "Info routes to", route
         switch route
             when "route:home"
                 jQuery.get "_list/tables/execDocs", (tableHtml) ->
@@ -12,7 +11,6 @@ Proggis.Info =
                         jQuery( @ ).prettyDate()
                     jQuery("article .data tr").click ->
                         id = jQuery(@).attr "about"
-                        console.log "user clicked", id
                         Proggis.router.navigate "execution/#{id}/", true
                 , "text"
 
@@ -31,7 +29,6 @@ Proggis.Info =
                 Proggis.description.html ""
                 jQuery(tmpl).tmpl(doc).appendTo Proggis.description
                 jQuery(".date", Proggis.description).prettyDate()
-                console.log doc
         Proggis.viewName.html "Execution document"
         jQuery.get "_list/tables/DocumentsByExecution?startkey=[\"#{execId}\"]&endkey=[\"#{execId}a\"]", (tablesHtml) ->
             jQuery('.graph').hide()

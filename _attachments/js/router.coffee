@@ -44,6 +44,7 @@ Proggis.RouterClass = Backbone.Router.extend
 
     # Show Planning data without zooming
     _planning: ->
+        console.log "planning"
         chartSelected = @_getPartnerOption()
         switch chartSelected
             when "byTime"
