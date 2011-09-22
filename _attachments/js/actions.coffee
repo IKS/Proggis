@@ -36,7 +36,7 @@ jQuery(document).ready ->
                                 # Reopen after file submit
                                 Proggis.db.openDoc doc._id, 
                                     success: (newDoc) ->
-                                        newDoc.workflow = "EffortControlling"
+                                        newDoc.workflow = $('#workflowSelector').val()
                                         # Save and fire noflo
                                         Proggis.db.saveDoc newDoc, 
                                             success: (res) ->

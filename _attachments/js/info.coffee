@@ -2,7 +2,6 @@ Proggis = window.Proggis ?= {}
 Proggis.Info =
     show: (route) ->
         console.log "Info routes to", route
-        Proggis.description.html ""
         switch route
             when "route:home"
                 jQuery.get "_list/tables/execDocs", (tableHtml) ->
@@ -22,7 +21,6 @@ Proggis.Info =
     showDocsByExecId: (execId) ->
         Proggis.db.openDoc execId, 
             success: (doc) ->
-                doc = {"_id":"637aecf25d75bf378ddadb83ca9bebd3","_rev":"4-e8213d8148076894f6825f710ac5ac4b","@type":"execution","start":"2011-09-21T14:59:07.891Z","state":"data_imported","workflow":"EffortControlling","end":"2011-09-21T15:00:37.740Z","_attachments":{"IKS_effortcontrolling.xlsx":{"content_type":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","revpos":2,"length":698793,"stub":true}}}
                 tmpl = """
                     <div>
                         <p>The execution of the workflow <b>${workflow}</b> begun <b class="date">${start}</b>
