@@ -16,9 +16,10 @@ Proggis.RouterClass = Backbone.Router.extend
 
     home: ->
         Proggis.viewName.html "IKS Project controlling Dashboard"
-        Proggis.graph.hide()
-        Proggis.Chart.init "AreaChart", (node) ->
+        Proggis.graph.show()
+        #Proggis.Chart.init "LineChart", (node) ->
         Proggis.Chart.legendClear $(".legend")
+        Proggis.Chart.loadFlotChart "ProjectOverTime", 3
 
     # ######### Planning Routes ################################################
     planning: ->

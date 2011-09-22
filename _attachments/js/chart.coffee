@@ -27,6 +27,32 @@ Proggis.Chart =
                 @chartObject.loadJSON json
             @legend @chartObject, $(".legend")
         @legendClear $(".legend")
+    loadFlotChart: (viewName, groupLevel, filterParam) ->
+        document.getElementById("visualization").innerHTML = ""
+        uri = "_list/flotchart/#{viewName}?group=true"
+        update = false
+        uri += "&group_level=#{groupLevel}"
+        if filterParam
+            uri += "&task_filter=" + filterParam
+            update = true
+        else
+        $.getJSON uri, (json, textStatus, xhr) =>
+            @data = json
+            options =
+                lines:
+                    show: true
+                points:
+                    show: true
+                xaxis:
+                    tickDecimals: 0
+                    tickSize: 1
+            vals = json.values
+            @chartObject = $.plot jQuery("#visualization"), [
+                vals.plan
+                vals.spent
+                vals.deliverablePlan
+                # vals.deliverableComplete
+            ]
     init: (chartType, onClickHandler) ->
         document.getElementById("visualization").innerHTML = ""
         config =
@@ -63,4 +89,14 @@ Proggis.Chart =
                 config.labelOffset = 5
                 config.orientation = 'vertical'
                 @chartObject = new $jit.BarChart config
+            when "LineChart"
+                @options =
+                    lines:
+                        show: true
+                    points:
+                        show: true
+                    xaxis:
+                        tickDecimals: 0
+                        tickSize: 1
+                @chartObject = $.plot
 
