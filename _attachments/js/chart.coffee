@@ -61,9 +61,12 @@ Proggis.Chart =
                     textColor: "white"
                     backgroundColor: "black"
                 grid:
-                    color: "#777"
+                    color: "#888"
+                xaxis:
+                    ticks: vals.xticks
                 yaxis:
                     max: 100
+                    position: "left"
             @chartObject = $.plot jQuery("#visualization"), [
                 data: vals.plan
                 label: "Planned effort"

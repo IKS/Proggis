@@ -10,12 +10,13 @@
     # `values` is an array of columns `{label:` column label, `values:` numbers in the column`}`
     # these columns are shown stacked on the chart.
     # `label` is an array of row labels
-    chart = {values: [], label: []}
+    chart = {}
 
     switch view
         # ######################################################################
         # used for planned effort over time
         when "EffortAllocTime"
+            chart = {values: [], label: []}
             switch groupLevel
                 when "3"
                     labelPrefix = "WP"
@@ -67,6 +68,7 @@
         # ######################################################################
         # used for planned effort by partner
         when "EffortAllocPartner"
+            chart = {values: [], label: []}
             switch groupLevel
                 when "2"
                     labelPrefix = "WP"
@@ -119,6 +121,7 @@
         # ######################################################################
         # used for monitoring effort over time
         when "EffortTime"
+            chart = {values: [], label: []}
             switch groupLevel
                 when "3"
                     labelPrefix = "WP"
@@ -175,6 +178,7 @@
         # ######################################################################
         # used for monitoring plan and spent efforts on the partners
         when "EffortPartner"
+            chart = {values: [], label: []}
             switch groupLevel
                 when "2"
                     labelPrefix = "WP"
@@ -239,6 +243,7 @@
         # data = [[x1, y1],[x2,y2]..] instead of just [y1, y2, ...] as it is 
         # needed for Jit charts.
         when "ProjectOverTime"
+            chart = {values: []}
             switch groupLevel
                 when "3"
                     labelPrefix = "WP"
@@ -268,16 +273,17 @@
                 "#{labelPrefix} #{key.replace ",", "."}"
 
             chart.values =
-                plan: []
-                spent: []
-                deliverablePlan: []
-                deliverableComplete: []
+                xticks: [[0, " "]]
+                plan: [[0,0]]
+                spent: [[0,0]]
+                deliverablePlan: [[0,0]]
+                deliverableComplete: [[0,0]]
             i = 0
             # iterate through the tree
             # First is the timeslots
             for timeslotKey, timeslotValue of tree
                 i++
-                # A column object has the label of the timeslot
+                chart.values.xticks.push [i, timeslotKey]
                 plan = [i, 0]
                 chart.values.plan.push plan
 
@@ -299,9 +305,9 @@
 
                 # stacked labels in `chart.label` consist of wbs labels 
                 # (e.g. "WP 3" or "Task 2.4")
-                chart.label = []
-                for wbs, task of timeslotValue
-                    chart.label.push wbsLabel wbs
+#                chart.label = []
+#                for wbs, task of timeslotValue
+#                    chart.label.push wbsLabel wbs
             getSum = (array) ->
                 sum = 0
                 for valArr in array
@@ -317,8 +323,10 @@
 
             chart.values.plan = accumulate chart.values.plan, getSum chart.values.plan
             chart.values.spent = accumulate chart.values.spent, getSum chart.values.plan
-            chart.values.deliverablePlan = accumulate chart.values.deliverablePlan, getSum chart.values.deliverablePlan
-            chart.values.deliverableComplete = accumulate chart.values.deliverableComplete, getSum chart.values.deliverablePlan
+            chart.values.deliverablePlan = 
+                accumulate chart.values.deliverablePlan, getSum chart.values.deliverablePlan
+            chart.values.deliverableComplete = 
+                accumulate chart.values.deliverableComplete, getSum chart.values.deliverablePlan
 
 
     # Send the actual chart object to the client.
