@@ -53,6 +53,17 @@ Proggis.Chart =
                         show: true
                     points:
                         show: true
+                legend:
+                    show: true
+                    container: ".legend"
+                    position: "se"
+                    labelBoxBorderColor: "white"
+                    textColor: "white"
+                    backgroundColor: "black"
+                grid:
+                    color: "#777"
+                yaxis:
+                    max: 100
             @chartObject = $.plot jQuery("#visualization"), [
                 data: vals.plan
                 label: "Planned effort"
