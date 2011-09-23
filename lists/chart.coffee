@@ -232,6 +232,95 @@
                 for wbs, task of partnerValue
                     chart.label.push wbsLabel wbs
 
+        # ######################################################################
+        # used for showing the project performance over the whole period of the 
+        # project.
+        # The JSON format follows the flot.js plotter data format with 
+        # data = [[x1, y1],[x2,y2]..] instead of just [y1, y2, ...] as it is 
+        # needed for Jit charts.
+        when "ProjectOverTime"
+            switch groupLevel
+                when "3"
+                    labelPrefix = "WP"
+                when "4"
+                    labelPrefix = "Task"
+            tree = {}
+            while row = getRow()
+                # row.key has two parts. The first and second are Year and Quarter 
+                # (or month at one point). 
+                keyTimeslot = ["Y#{row.key.shift()}Q#{row.key.shift()}"]
+                # The rest is WBS, the work breakdown structure.
+                keyWbs = row.key
+                if taskFilter and keyWbs[0] is taskFilter or not taskFilter
+                    # the treeAddress consists of the timeslot (e.g. "Y2Q4") 
+                    # and the keyWbs (e.g. "2.3")
+                    treeAddress = [keyTimeslot, keyWbs]
+                    # Iterate on the tree to find the right place for the row.
+                    # row.key
+                    leaf = tree
+                    for i, keyEl of treeAddress
+                        leaf[keyEl] = {} unless leaf[keyEl] instanceof Object
+                        leaf = leaf[keyEl]
+                    leaf.value = row.value
+
+            # Make dotted label-notation out of the comma-separated one
+            wbsLabel = (key) ->
+                "#{labelPrefix} #{key.replace ",", "."}"
+
+            chart.values =
+                plan: []
+                spent: []
+                deliverablePlan: []
+                deliverableComplete: []
+            i = 0
+            # iterate through the tree
+            # First is the timeslots
+            for timeslotKey, timeslotValue of tree
+                i++
+                # A column object has the label of the timeslot
+                plan = [i, 0]
+                chart.values.plan.push plan
+
+                spent = [i, 0]
+                chart.values.spent.push spent
+
+                deliverablePlan = [i, 0]
+                chart.values.deliverablePlan.push deliverablePlan
+
+                deliverableComplete = [i, 0]
+                chart.values.deliverableComplete.push deliverableComplete
+
+                for wbs, task of timeslotValue
+                    # column.values are the actual numbers in a column.
+                    plan[1] += task.value.planned
+                    spent[1] += roundNumber task.value.spent, 1
+                    deliverablePlan[1] += task.value.deliverables
+                    deliverableComplete[1] += task.value.completed
+
+                # stacked labels in `chart.label` consist of wbs labels 
+                # (e.g. "WP 3" or "Task 2.4")
+                chart.label = []
+                for wbs, task of timeslotValue
+                    chart.label.push wbsLabel wbs
+            getSum = (array) ->
+                sum = 0
+                for valArr in array
+                    sum += valArr[1]
+                sum
+            accumulate = (array, sum) ->
+                acc = []
+                reached = 0
+                for valArr in array
+                    reached += valArr[1]
+                    acc.push [valArr[0], reached/sum * 100] if valArr[1]
+                acc
+
+            chart.values.plan = accumulate chart.values.plan, getSum chart.values.plan
+            chart.values.spent = accumulate chart.values.spent, getSum chart.values.plan
+            chart.values.deliverablePlan = accumulate chart.values.deliverablePlan, getSum chart.values.deliverablePlan
+            chart.values.deliverableComplete = accumulate chart.values.deliverableComplete, getSum chart.values.deliverablePlan
+
+
     # Send the actual chart object to the client.
     send JSON.stringify chart
 

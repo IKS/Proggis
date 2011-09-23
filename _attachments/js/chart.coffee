@@ -29,7 +29,7 @@ Proggis.Chart =
         @legendClear $(".legend")
     loadFlotChart: (viewName, groupLevel, filterParam) ->
         document.getElementById("visualization").innerHTML = ""
-        uri = "_list/flotchart/#{viewName}?group=true"
+        uri = "_list/chart/#{viewName}?group=true"
         update = false
         uri += "&group_level=#{groupLevel}"
         if filterParam
@@ -47,12 +47,25 @@ Proggis.Chart =
                     tickDecimals: 0
                     tickSize: 1
             vals = json.values
+            plotOptions =
+                series:
+                    lines:
+                        show: true
+                    points:
+                        show: true
             @chartObject = $.plot jQuery("#visualization"), [
-                vals.plan
-                vals.spent
-                vals.deliverablePlan
+                data: vals.plan
+                label: "Planned effort"
+                clickable: true
+                hoverable: true
+            ,
+                data: vals.spent
+                label: "Spent effort"
+            ,
+                data: vals.deliverablePlan
+                label: "Planned Deliverables"
                 # vals.deliverableComplete
-            ]
+            ], plotOptions
     init: (chartType, onClickHandler) ->
         document.getElementById("visualization").innerHTML = ""
         config =
