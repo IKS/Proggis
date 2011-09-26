@@ -24,11 +24,20 @@ Proggis.Info =
                         <p>The execution of the workflow <b>${workflow}</b> begun <b class="date">${start}</b>
                         and ended <b class="date">${start}</b>. The current state is <b>"${state}"</b>.</p>
                         <p>The imported data objects were the following:</p>
+                        <button id="accept">Accept</button>
+                        <button id="decline">Decline</button>
                     <div>
                 """
                 Proggis.description.html ""
                 jQuery(tmpl).tmpl(doc).appendTo Proggis.description
                 jQuery(".date", Proggis.description).prettyDate()
+                jQuery("button", Proggis.description).button()
+                jQuery("#accept").click (e) ->
+                    # TODO change exec doc workflow state
+                    console.log "accepted"
+                jQuery("#decline").click (e) ->
+                    console.log "declined"
+                    
         Proggis.viewName.html "Execution document"
         jQuery.get "_list/tables/DocumentsByExecution?startkey=[\"#{execId}\"]&endkey=[\"#{execId}a\"]", (tablesHtml) ->
             jQuery('.graph').hide()
