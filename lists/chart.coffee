@@ -318,7 +318,7 @@
                 reached = 0
                 for valArr in array
                     reached += valArr[1]
-                    acc.push [valArr[0], reached/sum * 100] if valArr[1]
+                    acc.push [valArr[0], reached] if valArr[1] or not acc.length
                 acc
 
             chart.values.plan = accumulate chart.values.plan, getSum chart.values.plan

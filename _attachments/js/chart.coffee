@@ -62,24 +62,71 @@ Proggis.Chart =
                     backgroundColor: "black"
                 grid:
                     color: "#888"
+                    hoverable: true
+                    clickable: true
                 xaxis:
                     ticks: vals.xticks
-                yaxis:
-                    max: 100
+                yaxis: [{
+                    # max: 100
+                    position: "right"
+                },{
                     position: "left"
+                }]
+                clickable: true
+                hoverable: true
             @chartObject = $.plot jQuery("#visualization"), [
                 data: vals.plan
                 label: "Planned effort"
+                yaxis: 1
                 clickable: true
                 hoverable: true
             ,
                 data: vals.spent
+                yaxis: 1
                 label: "Spent effort"
+                clickable: true
+                hoverable: true
             ,
                 data: vals.deliverablePlan
                 label: "Planned Deliverables"
-                # vals.deliverableComplete
+                yaxis: 2
+                clickable: true
+                hoverable: true
+            ,
+                data: vals.deliverableComplete
+                label: "Completed Deliverables"
+                yaxis: 2
+                clickable: true
+                hoverable: true
             ], plotOptions
+
+            showTooltip = (x, y, contents) ->
+                jQuery("<div id=\"tooltip\">" + contents + "</div>").css(
+                    position: "absolute"
+                    display: "none"
+                    top: y + 5
+                    left: x + 5
+                    border: "1px solid #fdd"
+                    padding: "2px"
+                    "background-color": "#322"
+                    opacity: 0.80
+                ).appendTo("body").fadeIn 200
+            previousPoint = null
+            jQuery("#visualization").bind "plothover", (event, pos, item) ->
+                console.log "plothover", arguments
+                jQuery("#x").text pos.x.toFixed(2)
+                jQuery("#y").text pos.y.toFixed(2)
+                if item
+                    unless previousPoint == item.dataIndex
+                        previousPoint = item.dataIndex
+                        jQuery("#tooltip").remove()
+                        x = item.datapoint[0].toFixed(2)
+                        y = item.datapoint[1].toFixed(2)
+                        showTooltip item.pageX, item.pageY, item.series.label + " of " + item.series.xaxis.ticks[Number(x)].label + " = " + y
+                else
+                    $("#tooltip").remove()
+                    previousPoint = null
+
     init: (chartType, onClickHandler) ->
         document.getElementById("visualization").innerHTML = ""
         config =
