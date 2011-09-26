@@ -16,6 +16,7 @@ jQuery(document).ready ->
 # Defining parts of the view.
     Proggis.viewName = jQuery "#viewName"
     Proggis.graph = jQuery '.graph'
+    Proggis.visualization = jQuery '#visualization'
     Proggis.description = jQuery ".info.description"
 
     # Set up the spinner

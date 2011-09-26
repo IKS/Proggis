@@ -56,7 +56,6 @@ Proggis.Chart =
                 legend:
                     show: true
                     container: ".legend"
-                    position: "se"
                     labelBoxBorderColor: "white"
                     textColor: "white"
                     backgroundColor: "black"
@@ -65,14 +64,10 @@ Proggis.Chart =
                     hoverable: true
                     clickable: true
                 xaxis:
-                    ticks: vals.xticks
-                yaxis: [{
-                    # max: 100
-                    position: "right"
-                },{
-                    position: "left"
-                }]
-            @chartObject = $.plot jQuery("#visualization"), [
+                    vals.xaxis
+                yaxis:
+                    vals.yaxis
+            @chartObject = $.plot Proggis.visualization, [
                 data: vals.plan
                 label: "Planned effort"
                 yaxis: 1
@@ -90,6 +85,30 @@ Proggis.Chart =
                 yaxis: 2
             ], plotOptions
 
+            # TODO should come from the db
+            projectStart = new Date 2009,0,0
+            # one day in milliseconds
+            oneDay = 1000*60*60*24
+            # Milliseconds since project start
+            diffMilliseconds = new Date() - projectStart
+            diffDays = diffMilliseconds / oneDay
+            plotNow = diffDays / vals.xtickDays
+
+            # draw red vertical line and write 'Today' on it.
+            plotnowOffset = @chartObject.pointOffset({ x: plotNow, y: 50})
+            console.log "plotnowOffset:", plotnowOffset
+            Proggis.visualization.append """
+                <div style='position:absolute;left:#{plotnowOffset.left + 4}px;top:#{plotnowOffset.top}px;
+                color:red;font-size:smaller'>Today</div>
+                """
+            # Draw the line
+            ctx = @chartObject.getCanvas().getContext "2d"
+            ctx.beginPath()
+            ctx.strokeStyle = "#f00"
+            ctx.moveTo(plotnowOffset.left, 0)
+            ctx.lineTo(plotnowOffset.left, ctx.canvas.height)
+            ctx.stroke()
+
             # Show tooltip at x, y with the given contents
             showTooltip = (x, y, contents) ->
                 jQuery("<div id=\"tooltip\">" + contents + "</div>").css(
@@ -105,7 +124,7 @@ Proggis.Chart =
             previousPoint = null
 
             # on hover over an item show tooltip, otherwise remove it.
-            jQuery("#visualization").bind "plothover", (event, pos, item) ->
+            Proggis.visualization.bind "plothover", (event, pos, item) ->
                 jQuery("#x").text pos.x.toFixed(2)
                 jQuery("#y").text pos.y.toFixed(2)
                 if item

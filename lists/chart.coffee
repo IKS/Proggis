@@ -273,17 +273,26 @@
                 "#{labelPrefix} #{key.replace ",", "."}"
 
             chart.values =
-                xticks: [[0, " "]]
+                xaxis:
+                    ticks: [[0, " "]]
+                yaxis:
+                    [{
+                        position: "right"
+                    },{
+                        position: "left"
+                    }]
                 plan: [[0,0]]
                 spent: [[0,0]]
                 deliverablePlan: [[0,0]]
                 deliverableComplete: [[0,0]]
+                # one tick is a quarter
+                xtickDays: 365/4
             i = 0
             # iterate through the tree
             # First is the timeslots
             for timeslotKey, timeslotValue of tree
                 i++
-                chart.values.xticks.push [i, timeslotKey]
+                chart.values.xaxis.ticks.push [i, timeslotKey]
                 plan = [i, 0]
                 chart.values.plan.push plan
 
