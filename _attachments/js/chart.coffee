@@ -72,34 +72,25 @@ Proggis.Chart =
                 },{
                     position: "left"
                 }]
-                clickable: true
-                hoverable: true
             @chartObject = $.plot jQuery("#visualization"), [
                 data: vals.plan
                 label: "Planned effort"
                 yaxis: 1
-                clickable: true
-                hoverable: true
             ,
                 data: vals.spent
                 yaxis: 1
                 label: "Spent effort"
-                clickable: true
-                hoverable: true
             ,
                 data: vals.deliverablePlan
                 label: "Planned Deliverables"
                 yaxis: 2
-                clickable: true
-                hoverable: true
             ,
                 data: vals.deliverableComplete
                 label: "Completed Deliverables"
                 yaxis: 2
-                clickable: true
-                hoverable: true
             ], plotOptions
 
+            # Show tooltip at x, y with the given contents
             showTooltip = (x, y, contents) ->
                 jQuery("<div id=\"tooltip\">" + contents + "</div>").css(
                     position: "absolute"
@@ -112,8 +103,9 @@ Proggis.Chart =
                     opacity: 0.80
                 ).appendTo("body").fadeIn 200
             previousPoint = null
+
+            # on hover over an item show tooltip, otherwise remove it.
             jQuery("#visualization").bind "plothover", (event, pos, item) ->
-                console.log "plothover", arguments
                 jQuery("#x").text pos.x.toFixed(2)
                 jQuery("#y").text pos.y.toFixed(2)
                 if item
@@ -122,7 +114,8 @@ Proggis.Chart =
                         jQuery("#tooltip").remove()
                         x = item.datapoint[0].toFixed(2)
                         y = item.datapoint[1].toFixed(2)
-                        showTooltip item.pageX, item.pageY, item.series.label + " of " + item.series.xaxis.ticks[Number(x)].label + " = " + y
+                        xLabel = if item.series.xaxis.ticks then item.series.xaxis.ticks[Number(x)].label else x
+                        showTooltip item.pageX, item.pageY, item.series.label + " of " + xLabel + " = " + y
                 else
                     $("#tooltip").remove()
                     previousPoint = null
