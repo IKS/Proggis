@@ -1,0 +1,15 @@
+{"total_rows":13,"offset":0,"rows":[
+{"id":"ALKACON","key":"ALKACON","value":{"_id":"ALKACON","_rev":"1-f7481e5a99ab50c75d539a48e705c79b","foaf:country":"D","@type":"organization","foaf:name":"ALKACON","source":"0bbbc92ca2fecc276f1c4dd2920f19d6"}},
+{"id":"DAY","key":"DAY","value":{"_id":"DAY","_rev":"1-6a8d39a78e81ca52f0a77cfcc5a509b4","foaf:country":"CH","@type":"organization","foaf:name":"DAY","source":"0bbbc92ca2fecc276f1c4dd2920f19d6"}},
+{"id":"DFKI","key":"DFKI","value":{"_id":"DFKI","_rev":"1-e0f8d670faea65c3e0ef0993bdef40f0","foaf:country":"D","@type":"organization","foaf:name":"DFKI","source":"0bbbc92ca2fecc276f1c4dd2920f19d6"}},
+{"id":"HFU","key":"HFU","value":{"_id":"HFU","_rev":"1-75c252702d6b606ab83ffec3f71c7876","foaf:country":"D","@type":"organization","foaf:name":"HFU","source":"0bbbc92ca2fecc276f1c4dd2920f19d6"}},
+{"id":"ISTC-CNR","key":"ISTC-CNR","value":{"_id":"ISTC-CNR","_rev":"1-0694f8b9a938ada0ebb963eccd66e5f9","foaf:country":"IT","@type":"organization","foaf:name":"ISTC-CNR","source":"0bbbc92ca2fecc276f1c4dd2920f19d6"}},
+{"id":"MCM-HSG","key":"MCM-HSG","value":{"_id":"MCM-HSG","_rev":"1-b7ae582733e34f1d47ac94f79b7e1c0b","foaf:country":"CH","@type":"organization","foaf:name":"MCM-HSG","source":"0bbbc92ca2fecc276f1c4dd2920f19d6"}},
+{"id":"NEMEIN","key":"NEMEIN","value":{"_id":"NEMEIN","_rev":"1-e6399a6eea1af20318574dacbe357174","foaf:country":"FI","@type":"organization","foaf:name":"NEMEIN","source":"0bbbc92ca2fecc276f1c4dd2920f19d6"}},
+{"id":"NUXEO","key":"NUXEO","value":{"_id":"NUXEO","_rev":"1-bf9bf623f3643156869187febbabeb67","foaf:country":"FR","@type":"organization","foaf:name":"NUXEO","source":"0bbbc92ca2fecc276f1c4dd2920f19d6"}},
+{"id":"PISANO","key":"PISANO","value":{"_id":"PISANO","_rev":"1-efc37ce03161e39c9c0ebf4a209e059e","foaf:country":"D","@type":"organization","foaf:name":"PISANO","source":"0bbbc92ca2fecc276f1c4dd2920f19d6"}},
+{"id":"SRDC","key":"SRDC","value":{"_id":"SRDC","_rev":"1-a40d435fd0caeff2e749443fd34c77a9","foaf:country":"TR","@type":"organization","foaf:name":"SRDC","source":"0bbbc92ca2fecc276f1c4dd2920f19d6"}},
+{"id":"SRFG","key":"SRFG","value":{"_id":"SRFG","_rev":"1-31b0c3bf1434f37062f3cadf5d2c1d14","foaf:country":"AT","@type":"organization","foaf:name":"SRFG","source":"0bbbc92ca2fecc276f1c4dd2920f19d6"}},
+{"id":"TXT","key":"TXT","value":{"_id":"TXT","_rev":"1-d57a8ec240362f9011698238a440ea12","foaf:country":"IT","@type":"organization","foaf:name":"TXT","source":"0bbbc92ca2fecc276f1c4dd2920f19d6"}},
+{"id":"UPB","key":"UPB","value":{"_id":"UPB","_rev":"1-cc3d4aa3d4fa826f750f76dab90a67ac","foaf:country":"D","@type":"organization","foaf:name":"UPB","source":"0bbbc92ca2fecc276f1c4dd2920f19d6"}}
+]}

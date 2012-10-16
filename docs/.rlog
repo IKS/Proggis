@@ -1,0 +1,12 @@
+################################# Renamer Log ##################################
+# File : 7 files
+# Time : Wed, 11 Jul 2012 12:39:02
+################################################################################
+
+deliverables.json is converted to IKS deliverables.json..json
+effortallocations.json is converted to IKS effortallocations.json..json
+efforts.json is converted to IKS efforts.json..json
+execution.json is converted to IKS execution.json..json
+organizations.json is converted to IKS organizations.json..json
+tasks.json is converted to IKS tasks.json..json
+timeslots.json is converted to IKS timeslots.json..json

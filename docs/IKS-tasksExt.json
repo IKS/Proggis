@@ -1,0 +1,274 @@
+{
+  "docs" : [
+    {
+      "_id" : "http://iks-project.eu/task/1.1",
+      "name" : "1.1 Task: Design the benchmarking experiment",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/1.2",
+      "name" : "1.2 Task: Industrial benchmark exercise",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/1.3",
+      "name" : "1.3 Task: Validating the results and capturing requirements",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/10.1",
+      "name" : "10.1 Task: Coordination and Financial Administration",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/10.2",
+      "name" : "10.2 Task: Technical Coordination & Contingency Planning",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/10.3",
+      "name" : "10.3 Task: Quality Management and Self Assessment",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/2.1",
+      "name" : "2.1 Task: AmI Case: Analysis and Specifications",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/2.2",
+      "name" : "2.2 Task: Horizontal industrial case: Analysis and Specifications",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/2.3",
+      "name" : "2.3 Task: Vertical industrial case: Analysis and Specifications",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/2.4",
+      "name" : "2.4 Task: Intelligent project planning tool: Analysis and Specifications",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/3.1",
+      "name" : "3.1 Task: IKS: Requirements for Knowledge-based Interaction and Presentation",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/3.2",
+      "name" : "3.2 Task: IKS: Requirements for Knowledge Representation and reasoning",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/3.3",
+      "name" : "3.3 Task: IKS: Requirements for Semantic Lifting Components for traditional content resources",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/3.4",
+      "name" : "3.4 Task: IKS: Requirements for Semantic data access and persistence",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/4.1",
+      "name" : "4.1 Task: AmI Case: Design and Implementation",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/4.2",
+      "name" : "4.2 Task: Horizontal industrial case: Design and Implementation",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/4.3",
+      "name" : "4.3 Task: Vertical industrial case: Design and Implementation",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/4.4",
+      "name" : "4.4 Task: Intelligent project planning tool: Design and Implementation",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/5.1",
+      "name" : "5.1 Task: IKS: Design and Implementation of presentation and interaction components",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/5.2",
+      "name" : "5.2 Task: IKS: Design and Implementation of KR and reasoning components",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/5.3",
+      "name" : "5.3 Task: IKS: Design and Implementation of Semantic Lifting Components for traditional content resources",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/5.4",
+      "name" : "5.4 Task: IKS: Design and Implementation of semantic data access and persistence components",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/6.1",
+      "name" : "6.1 Task:Validation of IKS through internal use case application developers",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/6.2",
+      "name" : "6.2 Task: Validation of IKS through industrial use case application developers",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/6.3",
+      "name" : "6.3 Task: External Validation of IKS through \"early adopters\"",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/6.4",
+      "name" : "6.4 Task: Empirical studies with end users",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/6.5",
+      "name" : "6.5 Task: Performance benchmarks for IKS",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/7.1",
+      "name" : "7.1 Task: Semantic Technologies in CMS",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/7.2",
+      "name" : "7.2 Task: Handbook for developing semantic CMS applications",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/7.3",
+      "name" : "7.3 Task: Curriculum and training material for university teaching",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/7.4",
+      "name" : "7.4 Task: Curriculum and training material for industrial training",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/8.1",
+      "name" : "8.1 Task: IKS project dissemination",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/8.2",
+      "name" : "8.2 Task: Liaising with open source communities",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/8.3",
+      "name" : "8.3 Task: Liaising with W3C and standards bodies",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/8.4",
+      "name" : "8.4 Task: Ensuring industrial uptake through training",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/8.5",
+      "name" : "8.5 Task: Ensuring academic diffusion in IT-related studies",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/8.6",
+      "name" : "8.6 Task: Open Source semantic CMS grant scheme",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/8.7",
+      "name" : "8.7 Task: Recruiting, selection and training of \"early adopters\"",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/8.8",
+      "name" : "8.8 Task: Semantic CMS technology Roadshow",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/8.9",
+      "name" : "8.9 Task: Impact monitoring",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/9.1",
+      "name" : "9.1 Task: Showcasing AMI",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/9.2",
+      "name" : "9.2 Task: Showcasing horizontal semantic CMS application",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/9.3",
+      "name" : "9.3 Task: Showcasing vertical semantic CMS application",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/9.4",
+      "name" : "9.4 Task: Showcasing intelligent project planning application",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    },
+    {
+      "_id" : "http://iks-project.eu/task/9.5",
+      "name" : "9.5 Task: Showcasing domain specific applications",
+      "@type" : "task",
+      "source" : "0bbbc92ca2fecc276f1c4dd2920f19d6"
+    }
+  ]
+}
