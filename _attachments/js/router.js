@@ -15,7 +15,11 @@
       "monitoring/partner/": "monitoringPartner",
       "monitoring/wbs/:wbs/": "monitoringWbs",
       "monitoring/wbs/:wbs/partner/": "monitoringWbsPartner",
-      "execution/:execId/": "execution"
+      "execution/:execId/": "execution",
+      "deliverables/": "deliverables",
+      "deliverables/wbs/:wbs/": "deliverablesWbs",
+      "deliverables/time/:time/": "deliverablesTime",
+      "deliverables/d/:d/": "deliverableDoc"
     },
     home: function() {
       Proggis.viewName.html("IKS Project controlling Dashboard");
@@ -222,13 +226,23 @@
     },
     execution: function(execId) {
       return Proggis.Info.showDocsByExecId(execId);
-    }
+    },
+    deliverables: function() {
+      console.log("deliverables");
+      Proggis.graph.hide();
+      Proggis.viewName.html('Deliverables list');
+      return Proggis.Info.showDeliverables();
+    },
+    deliverablesWbs: function() {},
+    deliverablesTime: function() {},
+    deliverableDoc: function() {}
   });
 
   jQuery(document).ready(function() {
     Proggis.router = new Proggis.RouterClass;
     Proggis.router.bind("all", Proggis.Navigation.handleRouteChange);
     Proggis.router.bind("all", Proggis.Info.show);
+    Proggis.Info.init();
     Proggis.router.bind("all", Proggis.showEditableDescription);
     Backbone.history.start();
     return jQuery('[name=chartSelector]').change(function() {

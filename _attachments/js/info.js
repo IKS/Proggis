@@ -5,24 +5,79 @@
   Proggis = (_ref = window.Proggis) != null ? _ref : window.Proggis = {};
 
   Proggis.Info = {
-    show: function(route) {
-      switch (route) {
-        case "route:home":
-          return jQuery.get("_list/tables/execDocs", function(tableHtml) {
-            jQuery("article .data").html(tableHtml);
-            jQuery('.data table td.date').each(function() {
-              jQuery(this).attr('title', jQuery(this).text());
-              return jQuery(this).prettyDate();
+    init: function() {
+      var _this = this;
+      Proggis.router.on('route:deliverableDoc', function(doc) {
+        debugger;        return console.info('deliverablesDoc', doc);
+      });
+      Proggis.router.on("route:home", function() {
+        return jQuery.get("_list/tables/execDocs", function(tableHtml) {
+          jQuery("article .data").html(tableHtml);
+          jQuery('.data table td.date').each(function() {
+            jQuery(this).attr('title', jQuery(this).text());
+            return jQuery(this).prettyDate();
+          });
+          return jQuery("article .data tr").click(function() {
+            var id;
+            id = jQuery(this).attr("about");
+            return Proggis.router.navigate("execution/" + id + "/", true);
+          });
+        }, "text");
+      });
+      Proggis.router.on("route:deliverables", function() {
+        var jqXhr;
+        return jqXhr = jQuery.get("_list/tables/deliverablesByWbs", function(tableHtml) {
+          jQuery("article .data").html(tableHtml);
+          jQuery('.data table td.date').each(function() {
+            jQuery(this).attr('title', jQuery(this).text());
+            return jQuery(this).prettyDate();
+          });
+          jQuery("article .data tr").click(function() {
+            var id;
+            id = jQuery(this).attr("about");
+            return Proggis.router.navigate("execution/" + id + "/", true);
+          });
+          return jQuery('.deliverable tr[about]').each(function() {
+            return jQuery(this).click(function() {
+              var id, wbs;
+              id = jQuery(this).attr('about');
+              wbs = _(id.split('/')).last();
+              return Proggis.router.navigate("deliverables/d/" + wbs + "/", true);
             });
-            return jQuery("article .data tr").click(function() {
-              var id;
-              id = jQuery(this).attr("about");
-              return Proggis.router.navigate("execution/" + id + "/", true);
+          });
+        }, "text");
+      });
+      Proggis.router.on("route:deliverablesTime", function(time) {
+        var endTimeslot, jqXhr, startTimeslot, url;
+        console.info('deliverablesTime', time);
+        startTimeslot = time.split('.');
+        endTimeslot = _.clone(startTimeslot);
+        endTimeslot[endTimeslot.length - 1]++;
+        url = "_list/tables/deliverablesByTime?startkey=[" + (startTimeslot.join(',')) + "]&endkey=[" + (endTimeslot.join(',')) + "]";
+        return jqXhr = jQuery.get(url, function(tableHtml) {
+          jQuery("article .data").html(tableHtml);
+          jQuery('.data table td.date').each(function() {
+            jQuery(this).attr('title', jQuery(this).text());
+            return jQuery(this).prettyDate();
+          });
+          jQuery("article .data tr").click(function() {
+            var id;
+            id = jQuery(this).attr("about");
+            return Proggis.router.navigate("execution/" + id + "/", true);
+          });
+          return jQuery('.deliverable tr[about]').each(function() {
+            return jQuery(this).click(function() {
+              var id, wbs;
+              id = jQuery(this).attr('about');
+              wbs = _(id.split('/')).last();
+              return Proggis.router.navigate("deliverables/d/" + wbs + "/", true);
             });
-          }, "text");
-        default:
-          return jQuery("article .data").html("");
-      }
+          });
+        }, "text");
+      });
+      return Proggis.router.on('all', function() {
+        return jQuery("article .data").html("");
+      });
     },
     showDocsByExecId: function(execId) {
       Proggis.db.openDoc(execId, {
@@ -50,7 +105,8 @@
           return jQuery("article .data").html("<h1>No documents in the list</h1>");
         }
       }, "text");
-    }
+    },
+    showDeliverables: function() {}
   };
 
 }).call(this);

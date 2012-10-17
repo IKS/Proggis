@@ -144,8 +144,8 @@
           }).appendTo("body").fadeIn(200);
         };
         previousPoint = null;
-        return Proggis.visualization.bind("plothover", function(event, pos, item) {
-          var x, xLabel, y;
+        Proggis.visualization.bind("plothover", function(event, pos, item) {
+          var delta, x, xLabel, y;
           jQuery("#x").text(pos.x.toFixed(2));
           jQuery("#y").text(pos.y.toFixed(2));
           if (item) {
@@ -154,12 +154,26 @@
               jQuery("#tooltip").remove();
               x = item.datapoint[0].toFixed(2);
               y = item.datapoint[1].toFixed(2);
+              delta = item.series.data[item.dataIndex][1] - item.series.data[item.dataIndex - 1][1];
               xLabel = item.series.xaxis.ticks ? item.series.xaxis.ticks[Number(x)].label : x;
-              return showTooltip(item.pageX, item.pageY, item.series.label + " of " + xLabel + " = " + y);
+              return showTooltip(item.pageX, item.pageY, "" + item.series.label + " in " + xLabel + ": " + (Math.round(delta, 2)) + "<br/>Sum: " + y);
             }
           } else {
             $("#tooltip").remove();
             return previousPoint = null;
+          }
+        });
+        return Proggis.visualization.bind("plotclick", function(event, pos, item) {
+          var delta, timeRegExp, timeUnits, x, xLabel, y;
+          if (item) {
+            x = item.datapoint[0].toFixed(2);
+            y = item.datapoint[1].toFixed(2);
+            delta = item.series.data[item.dataIndex][1] - item.series.data[item.dataIndex - 1][1];
+            xLabel = item.series.xaxis.ticks ? item.series.xaxis.ticks[Number(x)].label : x;
+            console.info('x', x, 'y', y, 'xLabel', xLabel, 'item', item, 'label:', item.series.label);
+            timeRegExp = new RegExp("Y(\\d)Q(\\d)");
+            timeUnits = timeRegExp.exec(xLabel);
+            return Proggis.router.navigate("deliverables/time/" + (timeUnits.splice(1).join('.')) + "/", true);
           }
         });
       });

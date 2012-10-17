@@ -1,50 +1,56 @@
 Proggis = window.Proggis ?= {}
 Proggis.RouterClass = Backbone.Router.extend
-    routes:
-        "": "home"
-        "planning/": "planning"
-        "planning/partner/": "planningPartner"
-        "planning/wbs/:wbs/": "planningWbs"
-        "planning/wbs/:wbs/partner/": "planningWbsPartner"
+  routes:
+    "": "home"
+    "planning/": "planning"
+    "planning/partner/": "planningPartner"
+    "planning/wbs/:wbs/": "planningWbs"
+    "planning/wbs/:wbs/partner/": "planningWbsPartner"
 
-        "monitoring/": "monitoring"
-        "monitoring/partner/": "monitoringPartner"
-        "monitoring/wbs/:wbs/": "monitoringWbs"
-        "monitoring/wbs/:wbs/partner/": "monitoringWbsPartner"
+    "monitoring/": "monitoring"
+    "monitoring/partner/": "monitoringPartner"
+    "monitoring/wbs/:wbs/": "monitoringWbs"
+    "monitoring/wbs/:wbs/partner/": "monitoringWbsPartner"
 
-        "execution/:execId/": "execution"
+    "execution/:execId/": "execution"
 
-    home: ->
-        Proggis.viewName.html "IKS Project controlling Dashboard"
-        Proggis.graph.show()
-        #Proggis.Chart.init "LineChart", (node) ->
-        Proggis.Chart.legendClear $(".legend")
-        Proggis.Chart.loadFlotChart "ProjectOverTime", 3
+    "deliverables/": "deliverables"
+    "deliverables/wbs/:wbs/": "deliverablesWbs"
+    "deliverables/time/:time/": "deliverablesTime"
+    "deliverables/d/:d/": "deliverableDoc"
 
-    # ######### Planning Routes ################################################
-    planning: ->
-        Proggis.viewName.html "Project plan over time"
-        Proggis.graph.show()
-        @_setPartnerOption "Time"
-        do @_planning
-    planningPartner: ->
-        Proggis.viewName.html "Project plan over partners"
-        Proggis.graph.show()
-        @_setPartnerOption "Partner"
-        do @_planning
-    planningWbs: (wbs) ->
-        Proggis.viewName.html "Project plan over time for WP #{wbs}"
-        Proggis.graph.show()
-        @_setPartnerOption "Time"
-        @_planningWbs wbs
-    planningWbsPartner: (wbs) ->
-        Proggis.viewName.html "Project plan over partners for WP #{wbs}"
-        Proggis.graph.show()
-        @_setPartnerOption "Partner"
-        @_planningWbs wbs
+  home: ->
+      Proggis.viewName.html "IKS Project controlling Dashboard"
+      Proggis.graph.show()
+      #Proggis.Chart.init "LineChart", (node) ->
+      Proggis.Chart.legendClear $(".legend")
+      Proggis.Chart.loadFlotChart "ProjectOverTime", 3
+
+
+  # ######### Planning Routes ################################################
+  planning: ->
+      Proggis.viewName.html "Project plan over time"
+      Proggis.graph.show()
+      @_setPartnerOption "Time"
+      do @_planning
+  planningPartner: ->
+      Proggis.viewName.html "Project plan over partners"
+      Proggis.graph.show()
+      @_setPartnerOption "Partner"
+      do @_planning
+  planningWbs: (wbs) ->
+      Proggis.viewName.html "Project plan over time for WP #{wbs}"
+      Proggis.graph.show()
+      @_setPartnerOption "Time"
+      @_planningWbs wbs
+  planningWbsPartner: (wbs) ->
+      Proggis.viewName.html "Project plan over partners for WP #{wbs}"
+      Proggis.graph.show()
+      @_setPartnerOption "Partner"
+      @_planningWbs wbs
 
     # Show Planning data without zooming
-    _planning: ->
+  _planning: ->
         console.log "planning"
         chartSelected = @_getPartnerOption()
         switch chartSelected
@@ -64,7 +70,7 @@ Proggis.RouterClass = Backbone.Router.extend
                 Proggis.Chart.loadChart "EffortAllocPartner", 2
 
     # Show Planning data with zooming
-    _planningWbs: (wbs) ->
+  _planningWbs: (wbs) ->
         console.log "planningWbs", wbs
         chartSelected = @_getPartnerOption()
 
@@ -90,37 +96,37 @@ Proggis.RouterClass = Backbone.Router.extend
         console.log "wbs #{wbs}"
 
     # set radio button
-    _setPartnerOption: (byWhat) ->
+  _setPartnerOption: (byWhat) ->
         jQuery("[name=chartSelector][value=by#{byWhat}]").each ->
             @checked = true
         jQuery("[name=chartSelector][value!=by#{byWhat}]").each ->
             @checked = false
-    _getPartnerOption: ->
+  _getPartnerOption: ->
         jQuery('[name=chartSelector]').filter(-> jQuery(this).is(":checked")).val()
 
     # ########## Monitoring Routes #############################################
-    monitoring: ->
+  monitoring: ->
         Proggis.viewName.html "Project monitoring over time"
         Proggis.graph.show()
         @_setPartnerOption "Time"
         do @_monitoring
-    monitoringPartner: ->
+  monitoringPartner: ->
         Proggis.viewName.html "Project monitoring over partners"
         Proggis.graph.show()
         @_setPartnerOption "Partner"
         do @_monitoring
-    monitoringWbs: (wbs) ->
+  monitoringWbs: (wbs) ->
         Proggis.viewName.html "Project monitoring over time for WP #{wbs}"
         Proggis.graph.show()
         @_setPartnerOption "Time"
         @_monitoringWbs wbs
-    monitoringWbsPartner: (wbs) ->
+  monitoringWbsPartner: (wbs) ->
         Proggis.viewName.html "Project monitoring over partners for WP #{wbs}"
         Proggis.graph.show()
         @_setPartnerOption "Partner"
         @_monitoringWbs wbs
 
-    _monitoring: ->
+  _monitoring: ->
         console.log "monitoring"
         chartSelected = @_getPartnerOption()
         switch chartSelected
@@ -139,7 +145,7 @@ Proggis.RouterClass = Backbone.Router.extend
                     Proggis.router.navigate "monitoring/wbs/#{key}/partner/", true
                 Proggis.Chart.loadChart "EffortPartner", 2
 
-    _monitoringWbs: (wbs) ->
+  _monitoringWbs: (wbs) ->
         console.log "monitoringWbs", wbs
         chartSelected = @_getPartnerOption()
 
@@ -164,15 +170,31 @@ Proggis.RouterClass = Backbone.Router.extend
                 Proggis.Chart.loadChart "EffortPartner", 3, wbs
         console.log "wbs #{wbs}"
 
-    # ########## Execution Document#############################################
-    execution: (execId) ->
+  # ########## Execution Document#############################################
+  execution: (execId) ->
         Proggis.Info.showDocsByExecId execId
+  # ########## Deliverables ############################################
+  # "deliverables/": "deliverables"
+  deliverables: ->
+    console.log "deliverables"
+    Proggis.graph.hide()
+    Proggis.viewName.html 'Deliverables list'
+    Proggis.Info.showDeliverables()
+
+
+  # "deliverables/wbs/:wbs/": "deliverablesWbs"
+  deliverablesWbs: ->
+  # "deliverables/time/:time/": "deliverablesTime"
+  deliverablesTime: ->
+  # "deliverables/d/:d/": "deliverableDoc"
+  deliverableDoc: ->
 
 jQuery(document).ready ->
     # Router initialization
     Proggis.router = new Proggis.RouterClass
     Proggis.router.bind "all", Proggis.Navigation.handleRouteChange
     Proggis.router.bind "all", Proggis.Info.show
+    Proggis.Info.init()
     Proggis.router.bind "all", Proggis.showEditableDescription
     do Backbone.history.start
     # Initialize the chartselector option

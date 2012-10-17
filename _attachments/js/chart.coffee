@@ -125,19 +125,31 @@ Proggis.Chart =
 
             # on hover over an item show tooltip, otherwise remove it.
             Proggis.visualization.bind "plothover", (event, pos, item) ->
-                jQuery("#x").text pos.x.toFixed(2)
-                jQuery("#y").text pos.y.toFixed(2)
-                if item
-                    unless previousPoint == item.dataIndex
-                        previousPoint = item.dataIndex
-                        jQuery("#tooltip").remove()
-                        x = item.datapoint[0].toFixed(2)
-                        y = item.datapoint[1].toFixed(2)
-                        xLabel = if item.series.xaxis.ticks then item.series.xaxis.ticks[Number(x)].label else x
-                        showTooltip item.pageX, item.pageY, item.series.label + " of " + xLabel + " = " + y
-                else
-                    $("#tooltip").remove()
-                    previousPoint = null
+              jQuery("#x").text pos.x.toFixed(2)
+              jQuery("#y").text pos.y.toFixed(2)
+              if item
+                unless previousPoint == item.dataIndex
+                  previousPoint = item.dataIndex
+                  jQuery("#tooltip").remove()
+                  x = item.datapoint[0].toFixed(2)
+                  y = item.datapoint[1].toFixed(2)
+                  delta = item.series.data[item.dataIndex][1] - item.series.data[item.dataIndex - 1][1]
+                  xLabel = if item.series.xaxis.ticks then item.series.xaxis.ticks[Number(x)].label else x
+                  showTooltip item.pageX, item.pageY, "#{item.series.label} in #{xLabel}: #{Math.round(delta, 2)}<br/>Sum: #{y}"
+              else
+                $("#tooltip").remove()
+                previousPoint = null
+            Proggis.visualization.bind "plotclick", (event, pos, item) ->
+              if item
+                x = item.datapoint[0].toFixed(2)
+                y = item.datapoint[1].toFixed(2)
+                delta = item.series.data[item.dataIndex][1] - item.series.data[item.dataIndex - 1][1]
+                xLabel = if item.series.xaxis.ticks then item.series.xaxis.ticks[Number(x)].label else x
+                console.info 'x',x,'y',y, 'xLabel',xLabel,'item',item,   'label:', item.series.label
+                timeRegExp = new RegExp "Y(\\d)Q(\\d)"
+                timeUnits = timeRegExp.exec xLabel
+                Proggis.router.navigate "deliverables/time/#{timeUnits.splice(1).join '.'}/", true
+
 
     init: (chartType, onClickHandler) ->
         document.getElementById("visualization").innerHTML = ""

@@ -1,7 +1,7 @@
 {
   "env" : {
     "default" : {
-      "db" : "http://localhost:5984/default",
+      "db" : "http://localhost:5984/Proggis20",
       "make_dumps": false
     }
   },
