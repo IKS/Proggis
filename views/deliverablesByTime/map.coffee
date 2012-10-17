@@ -14,7 +14,6 @@
 
     deliverableRegExp = new RegExp "http://iks-project.eu/deliverable/(\\d+)\.(\\d+)\.(\\d*)"
     wbs = deliverableRegExp.exec doc['_id']
-
     key = [year, quarter, Number(wbs[1]), Number(wbs[2]), Number(wbs[3])]
 
 

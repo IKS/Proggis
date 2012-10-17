@@ -93,8 +93,14 @@
             label: "Deliverables"
             about: "_id"
             fields: [
-                key: "name"
-                label: "Title"
+              key: (doc) ->
+                deliverableRegExp = new RegExp "http://iks-project.eu/deliverable/(\\d+)\.(\\d+)\.(\\d*)"
+                wbs = deliverableRegExp.exec doc['_id']
+                shortname = "D#{wbs.splice(1).join('.')}"
+              label: "Name"
+            ,
+              key: "name"
+              label: "Title"
             ,
                 key: "description"
                 label: "Description"
@@ -150,7 +156,8 @@
             for field in typeObj.fields
                 styleClass = ""
                 styleClass = "#{field.styleClass}" if field.styleClass
-                send "<td class='#{field.key} #{styleClass}'>#{instance[field.key] or ''}</td>"
+                value = if typeof field.key is 'function' then field.key(instance) else instance[field.key]
+                send "<td class='#{if typeof field.key is 'function' then '' else field.key} #{styleClass}'>#{value or ''}</td>"
             send "</tr>"
             send "\n<!-- #{JSON.stringify instance}-->"
         send "</tbody></table>"

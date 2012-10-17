@@ -32,18 +32,17 @@
             jQuery(this).attr('title', jQuery(this).text());
             return jQuery(this).prettyDate();
           });
-          jQuery("article .data tr").click(function() {
-            var id;
-            id = jQuery(this).attr("about");
-            return Proggis.router.navigate("execution/" + id + "/", true);
-          });
-          return jQuery('.deliverable tr[about]').each(function() {
+          jQuery('.deliverable tr[about]').each(function() {
             return jQuery(this).click(function() {
               var id, wbs;
               id = jQuery(this).attr('about');
               wbs = _(id.split('/')).last();
               return Proggis.router.navigate("deliverables/d/" + wbs + "/", true);
             });
+          });
+          return jQuery("article .data table").first().dataTable({
+            bSort: true,
+            bPaginate: false
           });
         }, "text");
       });
@@ -55,23 +54,22 @@
         endTimeslot[endTimeslot.length - 1]++;
         url = "_list/tables/deliverablesByTime?startkey=[" + (startTimeslot.join(',')) + "]&endkey=[" + (endTimeslot.join(',')) + "]";
         return jqXhr = jQuery.get(url, function(tableHtml) {
-          jQuery("article .data").html(tableHtml);
+          jQuery("article .data").html(tableHtml).find('table').first().dataTables();
           jQuery('.data table td.date').each(function() {
             jQuery(this).attr('title', jQuery(this).text());
             return jQuery(this).prettyDate();
           });
-          jQuery("article .data tr").click(function() {
-            var id;
-            id = jQuery(this).attr("about");
-            return Proggis.router.navigate("execution/" + id + "/", true);
-          });
-          return jQuery('.deliverable tr[about]').each(function() {
+          jQuery('.deliverable tr[about]').each(function() {
             return jQuery(this).click(function() {
               var id, wbs;
               id = jQuery(this).attr('about');
               wbs = _(id.split('/')).last();
               return Proggis.router.navigate("deliverables/d/" + wbs + "/", true);
             });
+          });
+          return jQuery("article .data table").first().dataTable({
+            bSort: true,
+            bPaginate: false
           });
         }, "text");
       });

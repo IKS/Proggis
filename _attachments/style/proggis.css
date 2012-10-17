@@ -168,3 +168,8 @@ footer a span {
     border-radius: 6px;
     background: #2e3436;
 }
+
+.dataTables_filter {
+    text-align: right;
+    padding: 4px;
+}

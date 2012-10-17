@@ -22,14 +22,15 @@ Proggis.Info =
         jQuery('.data table td.date').each ->
           jQuery( @ ).attr 'title', jQuery( @ ).text()
           jQuery( @ ).prettyDate()
-        jQuery("article .data tr").click ->
-          id = jQuery(@).attr "about"
-          Proggis.router.navigate "execution/#{id}/", true
         jQuery('.deliverable tr[about]').each ->
           jQuery(@).click ->
             id = jQuery(@).attr 'about'
             wbs = _(id.split('/')).last()
             Proggis.router.navigate "deliverables/d/#{wbs}/", true
+        jQuery("article .data table").first()
+        .dataTable
+          bSort: true
+          bPaginate: false
       , "text"
     Proggis.router.on "route:deliverablesTime", (time) =>
       console.info 'deliverablesTime', time
@@ -40,17 +41,19 @@ Proggis.Info =
       jqXhr = jQuery.get url, (tableHtml) =>
         jQuery("article .data")
           .html(tableHtml)
+          .find('table').first().dataTables()
         jQuery('.data table td.date').each ->
           jQuery( @ ).attr 'title', jQuery( @ ).text()
           jQuery( @ ).prettyDate()
-        jQuery("article .data tr").click ->
-          id = jQuery(@).attr "about"
-          Proggis.router.navigate "execution/#{id}/", true
         jQuery('.deliverable tr[about]').each ->
           jQuery(@).click ->
             id = jQuery(@).attr 'about'
             wbs = _(id.split('/')).last()
             Proggis.router.navigate "deliverables/d/#{wbs}/", true
+        jQuery("article .data table").first()
+          .dataTable
+            bSort: true
+            bPaginate: false
 
       , "text"
 
