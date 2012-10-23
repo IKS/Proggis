@@ -91,7 +91,7 @@ Aggregated project information is stored into a CouchDB repository as RDF, encod
 
 The RDF ontologies used include:
 
-* http://purj.org/stuff/project/
+* http://purl.org/stuff/project/
 
 This way, for example a task might be stored as:
 
