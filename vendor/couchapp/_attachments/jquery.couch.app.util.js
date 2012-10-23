@@ -75,9 +75,9 @@ $.prettyDate = function(time){
 		day_diff == 1 && "yesterday" ||
 		day_diff < 21 && day_diff + " days ago" ||
 		day_diff < 45 && Math.ceil( day_diff / 7 ) + " weeks ago" ||
-    time;
-    // day_diff < 730 && Math.ceil( day_diff / 31 ) + " months ago" ||
-    // Math.ceil( day_diff / 365 ) + " years ago";
+        day_diff < 730 && Math.ceil( day_diff / 31 ) + " months ago" ||
+        Math.ceil( day_diff / 365 ) + " years ago";
+        // time;
 };
 
 $.argsToArray = function(args) {

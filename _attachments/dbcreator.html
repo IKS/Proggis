@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Proggis</title>
+        <link rel="stylesheet" href="style/proggis.css" />
+        <script src="vendor/couchapp/loader.js"></script>
+        <script src="js/projectcreator.js"></script>
+        <script language="JavaScript">
+            jQuery(document).ready(function(){
+                var project = new Project()
+                var log = function(msg){
+                    jQuery('#log').append('<div>' + msg + '</div>');
+                }
+                jQuery.get('project-a.proggis', function(text){
+                    // Parse, then list parsed information
+                    jQuery('#project-definition').val(text);
+                });
+                jQuery('button#delete').button().click(function(){
+                    project.clear();
+                    project.parse(jQuery('#project-definition').val());
+                    project.deleteDB(log);
+                });
+                jQuery('button#create').button().click(function(){
+                    project.clear();
+                    project.parse(jQuery('#project-definition').val());
+                    project.list();
+                    project.saveData(log);
+
+                });
+                jQuery('#loadingSpinner').hide();
+            });
+        </script>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <span id="loadingSpinner"><img src="style/images/spinner.gif"/></span>
+        <div>
+            <textarea id="project-definition" style="width:80%;height: 400px;"></textarea>
+        </div>
+        <button id="create">Create DB</button>
+        <button id="delete">Delete DB</button>
+        <div id="log" style="background-color: white;color: black;"></div>
+    </body>
+</html>

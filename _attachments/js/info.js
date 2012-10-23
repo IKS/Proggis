@@ -8,7 +8,25 @@
     init: function() {
       var _this = this;
       Proggis.router.on('route:deliverableDoc', function(doc) {
-        debugger;        return console.info('deliverablesDoc', doc);
+        var deliverable;
+        console.info('deliverablesDoc', doc);
+        Proggis.graph.hide();
+        deliverable = new Proggis.Deliverable({
+          id: "http://iks-project.eu/deliverable/" + doc
+        });
+        return deliverable.fetch({
+          success: function(doc) {
+            var view;
+            console.info(doc);
+            return view = new Proggis.DeliverableView({
+              el: jQuery("article .data"),
+              model: doc
+            });
+          },
+          error: function(e) {
+            return console.error(e);
+          }
+        });
       });
       Proggis.router.on("route:home", function() {
         return jQuery.get("_list/tables/execDocs", function(tableHtml) {
@@ -26,6 +44,7 @@
       });
       Proggis.router.on("route:deliverables", function() {
         var jqXhr;
+        Proggis.graph.hide();
         return jqXhr = jQuery.get("_list/tables/deliverablesByWbs", function(tableHtml) {
           jQuery("article .data").html(tableHtml);
           jQuery('.data table td.date').each(function() {
@@ -48,13 +67,14 @@
       });
       Proggis.router.on("route:deliverablesTime", function(time) {
         var endTimeslot, jqXhr, startTimeslot, url;
+        Proggis.graph.hide();
         console.info('deliverablesTime', time);
         startTimeslot = time.split('.');
         endTimeslot = _.clone(startTimeslot);
         endTimeslot[endTimeslot.length - 1]++;
         url = "_list/tables/deliverablesByTime?startkey=[" + (startTimeslot.join(',')) + "]&endkey=[" + (endTimeslot.join(',')) + "]";
         return jqXhr = jQuery.get(url, function(tableHtml) {
-          jQuery("article .data").html(tableHtml).find('table').first().dataTables();
+          jQuery("article .data").html(tableHtml);
           jQuery('.data table td.date').each(function() {
             jQuery(this).attr('title', jQuery(this).text());
             return jQuery(this).prettyDate();
@@ -73,15 +93,13 @@
           });
         }, "text");
       });
-      return Proggis.router.on('all', function() {
-        return jQuery("article .data").html("");
-      });
+      return Proggis.router.on('all', function() {});
     },
     showDocsByExecId: function(execId) {
       Proggis.db.openDoc(execId, {
         success: function(doc) {
           var tmpl;
-          tmpl = "<div>\n    <p>The execution of the workflow <b>${workflow}</b> begun <b class=\"date\">${start}</b>\n    and ended <b class=\"date\">${start}</b>. The current state is <b>\"${state}\"</b>.</p>\n    <p>The imported data objects were the following:</p>\n    <button id=\"accept\">Accept</button>\n    <button id=\"decline\">Decline</button>\n<div>";
+          tmpl = "<div>\n  <p>The execution of the workflow <b>${workflow}</b> begun <b class=\"date\">${start}</b>\n  and ended <b class=\"date\">${start}</b>. The current state is <b>\"${state}\"</b>.</p>\n  <p>The imported data objects were the following:</p>\n  <button id=\"accept\">Accept</button>\n  <button id=\"decline\">Decline</button>\n<div>";
           Proggis.description.html("");
           jQuery(tmpl).tmpl(doc).appendTo(Proggis.description);
           jQuery(".date", Proggis.description).prettyDate();

@@ -2,8 +2,18 @@ Proggis = window.Proggis ?= {}
 Proggis.Info =
   init: ->
     Proggis.router.on 'route:deliverableDoc', (doc) =>
-      debugger
-      console.info 'deliverablesDoc', doc#
+      console.info 'deliverablesDoc', doc
+      Proggis.graph.hide()
+      deliverable = new Proggis.Deliverable id: "http://iks-project.eu/deliverable/#{doc}"
+      deliverable.fetch
+        success: (doc) ->
+          console.info doc
+          view = new Proggis.DeliverableView
+            el: jQuery("article .data")
+            model: doc
+        error: (e) ->
+          console.error e
+
     Proggis.router.on "route:home", =>
       jQuery.get "_list/tables/execDocs", (tableHtml) ->
         jQuery("article .data")
@@ -16,6 +26,7 @@ Proggis.Info =
           Proggis.router.navigate "execution/#{id}/", true
       , "text"
     Proggis.router.on "route:deliverables", =>
+      Proggis.graph.hide()
       jqXhr = jQuery.get "_list/tables/deliverablesByWbs", (tableHtml) =>
         jQuery("article .data")
           .html(tableHtml)
@@ -33,6 +44,7 @@ Proggis.Info =
           bPaginate: false
       , "text"
     Proggis.router.on "route:deliverablesTime", (time) =>
+      Proggis.graph.hide()
       console.info 'deliverablesTime', time
       startTimeslot = time.split('.')
       endTimeslot = _.clone startTimeslot
@@ -41,7 +53,6 @@ Proggis.Info =
       jqXhr = jQuery.get url, (tableHtml) =>
         jQuery("article .data")
           .html(tableHtml)
-          .find('table').first().dataTables()
         jQuery('.data table td.date').each ->
           jQuery( @ ).attr 'title', jQuery( @ ).text()
           jQuery( @ ).prettyDate()
@@ -58,19 +69,19 @@ Proggis.Info =
       , "text"
 
     Proggis.router.on 'all', =>
-      jQuery("article .data").html ""
+      # jQuery("article .data").html ""
   showDocsByExecId: (execId) ->
     Proggis.db.openDoc execId,
       success: (doc) ->
         tmpl = """
-                            <div>
-                                <p>The execution of the workflow <b>${workflow}</b> begun <b class="date">${start}</b>
-                                and ended <b class="date">${start}</b>. The current state is <b>"${state}"</b>.</p>
-                                <p>The imported data objects were the following:</p>
-                                <button id="accept">Accept</button>
-                                <button id="decline">Decline</button>
-                            <div>
-                        """
+          <div>
+            <p>The execution of the workflow <b>${workflow}</b> begun <b class="date">${start}</b>
+            and ended <b class="date">${start}</b>. The current state is <b>"${state}"</b>.</p>
+            <p>The imported data objects were the following:</p>
+            <button id="accept">Accept</button>
+            <button id="decline">Decline</button>
+          <div>
+        """
         Proggis.description.html ""
         jQuery(tmpl).tmpl(doc).appendTo Proggis.description
         jQuery(".date", Proggis.description).prettyDate()
